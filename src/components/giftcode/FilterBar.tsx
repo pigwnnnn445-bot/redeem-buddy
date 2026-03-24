@@ -98,6 +98,7 @@ const FilterBar = ({ filters, onFilterChange, onSearch, onReset }: FilterBarProp
             <SelectItem value="empty">空</SelectItem>
           </SelectContent>
         </Select>
+        <div className="flex items-center gap-1 text-xs text-muted-foreground whitespace-nowrap">创建时间</div>
         <Popover>
           <PopoverTrigger asChild>
             <Button variant="outline" className="h-8 text-xs gap-1 justify-start font-normal">
