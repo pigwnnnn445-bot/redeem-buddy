@@ -3,15 +3,17 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { FileText } from "lucide-react";
+import { FileText, Pencil } from "lucide-react";
 import type { GiftCode, GiftCodeStatus } from "@/lib/giftcode-data";
 import OperationLogSheet from "./OperationLogSheet";
+import EditRemarkDialog from "./EditRemarkDialog";
 
 interface GiftCodeTableProps {
   data: GiftCode[];
   selectedIds: string[];
   onSelectionChange: (ids: string[]) => void;
   onStatusChange: (id: string, from: GiftCodeStatus, to: GiftCodeStatus) => void;
+  onRemarkChange: (id: string, remark: string) => void;
 }
 
 const statusColorMap: Record<GiftCodeStatus, string> = {
@@ -22,9 +24,12 @@ const statusColorMap: Record<GiftCodeStatus, string> = {
   '无效': 'bg-muted text-muted-foreground',
 };
 
-const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange }: GiftCodeTableProps) => {
+const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, onRemarkChange }: GiftCodeTableProps) => {
   const [logSheet, setLogSheet] = useState<{ open: boolean; logs: GiftCode['logs']; giftCodeId: string }>({
     open: false, logs: [], giftCodeId: '',
+  });
+  const [remarkDialog, setRemarkDialog] = useState<{ open: boolean; id: string; remark: string }>({
+    open: false, id: '', remark: '',
   });
 
   const allSelected = data.length > 0 && selectedIds.length === data.length;
@@ -74,13 +79,14 @@ const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange }:
               <TableHead className="text-xs font-semibold">创建时间</TableHead>
               <TableHead className="text-xs font-semibold">创建人</TableHead>
               <TableHead className="text-xs font-semibold">一键换码</TableHead>
+              <TableHead className="text-xs font-semibold">备注</TableHead>
               <TableHead className="text-xs font-semibold">操作</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {data.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={12} className="text-center text-muted-foreground py-16 text-sm">
+                <TableCell colSpan={13} className="text-center text-muted-foreground py-16 text-sm">
                   暂无数据
                 </TableCell>
               </TableRow>
@@ -119,6 +125,9 @@ const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange }:
                         <span className="text-xs text-muted-foreground">-</span>
                       )}
                     </TableCell>
+                    <TableCell className="text-xs text-muted-foreground max-w-[120px] truncate" title={item.remark}>
+                      {item.remark || '-'}
+                    </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-1 flex-nowrap">
                         {actions.map(action => (
@@ -132,6 +141,15 @@ const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange }:
                             {action.label}
                           </Button>
                         ))}
+                        <Button
+                          variant="link"
+                          size="sm"
+                          className="h-6 px-1 text-[11px] text-muted-foreground gap-0.5"
+                          onClick={() => setRemarkDialog({ open: true, id: item.id, remark: item.remark })}
+                        >
+                          <Pencil className="h-3 w-3" />
+                          备注
+                        </Button>
                         <Button
                           variant="link"
                           size="sm"
@@ -156,6 +174,16 @@ const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange }:
         onOpenChange={(open) => setLogSheet(prev => ({ ...prev, open }))}
         logs={logSheet.logs}
         giftCodeId={logSheet.giftCodeId}
+      />
+
+      <EditRemarkDialog
+        open={remarkDialog.open}
+        onOpenChange={(open) => setRemarkDialog(prev => ({ ...prev, open }))}
+        remark={remarkDialog.remark}
+        onSave={(remark) => {
+          onRemarkChange(remarkDialog.id, remark);
+          setRemarkDialog({ open: false, id: '', remark: '' });
+        }}
       />
     </>
   );

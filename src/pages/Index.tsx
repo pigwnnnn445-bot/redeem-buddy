@@ -5,11 +5,13 @@ import { toast } from "sonner";
 import FilterBar from "@/components/giftcode/FilterBar";
 import ImportSheet from "@/components/giftcode/ImportSheet";
 import GiftCodeTable from "@/components/giftcode/GiftCodeTable";
-import { mockGiftCodes, type GiftCode, type GiftCodeStatus } from "@/lib/giftcode-data";
+import { mockGiftCodes, mockSKUs, type GiftCode, type GiftCodeStatus } from "@/lib/giftcode-data";
 
 const defaultFilters = {
   skuName: '', code: '', status: 'all', viewStatus: 'all',
-  userEmail: '', orderNo: '', createdBy: '', swapStatus: 'all',
+  userEmail: '', orderNo: '', createdBy: 'all', swapStatus: 'all',
+  dateFrom: undefined as Date | undefined,
+  dateTo: undefined as Date | undefined,
 };
 
 const Index = () => {
@@ -28,10 +30,20 @@ const Index = () => {
       if (f.viewStatus !== 'all' && item.viewStatus !== f.viewStatus) return false;
       if (f.userEmail && !(item.userEmail || '').includes(f.userEmail)) return false;
       if (f.orderNo && !(item.orderNo || '').includes(f.orderNo)) return false;
-      if (f.createdBy && !item.createdBy.includes(f.createdBy)) return false;
+      if (f.createdBy !== 'all' && item.createdBy !== f.createdBy) return false;
       if (f.swapStatus !== 'all') {
         if (f.swapStatus === 'empty' && item.swapStatus !== '') return false;
         if (f.swapStatus === '换码中' && item.swapStatus !== '换码中') return false;
+      }
+      if (f.dateFrom) {
+        const itemDate = new Date(item.createdAt);
+        if (itemDate < f.dateFrom) return false;
+      }
+      if (f.dateTo) {
+        const endOfDay = new Date(f.dateTo);
+        endOfDay.setHours(23, 59, 59, 999);
+        const itemDate = new Date(item.createdAt);
+        if (itemDate > endOfDay) return false;
       }
       return true;
     });
@@ -48,6 +60,19 @@ const Index = () => {
       return { ...item, status: to, logs: [...item.logs, log] };
     }));
     toast.success(`礼品码状态已从 ${from} 变更为 ${to}`);
+  };
+
+  const handleRemarkChange = (id: string, remark: string) => {
+    setGiftCodes(prev => prev.map(item => {
+      if (item.id !== id) return item;
+      const log = {
+        id: `log-${Date.now()}`, recordId: id,
+        remark: `编辑备注: ${remark}`,
+        time: new Date().toLocaleString('zh-CN'), operator: 'admin',
+      };
+      return { ...item, remark, logs: [...item.logs, log] };
+    }));
+    toast.success('备注已更新');
   };
 
   const handleBatchAction = (from: GiftCodeStatus, to: GiftCodeStatus) => {
@@ -72,15 +97,16 @@ const Index = () => {
     toast.success(`已批量变更 ${eligible.length} 个礼品码状态`);
   };
 
-  const handleImport = (_skuId: string, codes: string[]) => {
-    const skuName = codes.length > 0 ? 'Netflix 月卡' : '';
+  const handleImport = (skuId: string, codes: string[]) => {
+    const sku = mockSKUs.find(s => s.id === skuId);
+    const skuName = sku?.name || '';
     const newCodes: GiftCode[] = codes.map((code, i) => ({
-      id: `new-${Date.now()}-${i}`, skuName, code,
+      id: `${Date.now()}-${i}`, skuName, code,
       status: '未售卖' as const, viewStatus: '未查看' as const,
       userEmail: null, orderNo: null,
       createdAt: new Date().toLocaleString('zh-CN'), createdBy: 'admin',
-      swapStatus: '' as const,
-      logs: [{ id: `log-new-${Date.now()}-${i}`, recordId: `new-${Date.now()}-${i}`, remark: '导入礼品码', time: new Date().toLocaleString('zh-CN'), operator: 'admin' }],
+      swapStatus: '' as const, remark: '',
+      logs: [{ id: `log-new-${Date.now()}-${i}`, recordId: `${Date.now()}-${i}`, remark: '导入礼品码', time: new Date().toLocaleString('zh-CN'), operator: 'admin' }],
     }));
     setGiftCodes(prev => [...newCodes, ...prev]);
   };
@@ -93,7 +119,6 @@ const Index = () => {
       </div>
 
       <div className="p-4 space-y-3">
-        {/* Filter Area */}
         <FilterBar
           filters={filters}
           onFilterChange={(key, value) => setFilters(prev => ({ ...prev, [key]: value }))}
@@ -101,7 +126,6 @@ const Index = () => {
           onReset={() => { setFilters(defaultFilters); setActiveFilters(defaultFilters); }}
         />
 
-        {/* Action Bar */}
         <div className="flex items-center gap-2 flex-wrap">
           <Button size="sm" onClick={() => setImportOpen(true)} className="h-8 text-xs gap-1">
             <Upload className="h-3.5 w-3.5" />
@@ -124,16 +148,16 @@ const Index = () => {
           )}
         </div>
 
-        {/* Table */}
         <GiftCodeTable
           data={filteredData}
           selectedIds={selectedIds}
           onSelectionChange={setSelectedIds}
           onStatusChange={handleStatusChange}
+          onRemarkChange={handleRemarkChange}
         />
       </div>
 
-      <ImportSheet open={importOpen} onOpenChange={setImportOpen} onImport={handleImport} />
+      <ImportSheet open={importOpen} onOpenChange={setImportOpen} onImport={handleImport} existingCodes={giftCodes} />
     </div>
   );
 };
