@@ -102,31 +102,26 @@ const Index = () => {
         />
 
         {/* Action Bar */}
-        <div className="flex items-center justify-between flex-wrap gap-2">
-          <div className="flex items-center gap-2 flex-wrap">
-            <Button size="sm" onClick={() => setImportOpen(true)} className="h-8 text-xs gap-1">
-              <Upload className="h-3.5 w-3.5" />
-              导入礼品码
-            </Button>
-
-            {selectedIds.length > 0 && (
-              <>
-                <span className="text-xs text-muted-foreground">已选 {selectedIds.length} 项</span>
-                <Button size="sm" variant="outline" className="h-7 text-[11px]" onClick={() => handleBatchAction('已退款', '未售卖')}>
-                  批量已退款→未售卖
-                </Button>
-                <Button size="sm" variant="outline" className="h-7 text-[11px]" onClick={() => handleBatchAction('已退款', '无效')}>
-                  批量已退款→无效
-                </Button>
-                <Button size="sm" variant="outline" className="h-7 text-[11px]" onClick={() => handleBatchAction('已退货', '未售卖')}>
-                  批量已退货→未售卖
-                </Button>
-                <Button size="sm" variant="outline" className="h-7 text-[11px]" onClick={() => handleBatchAction('已退货', '无效')}>
-                  批量已退货→无效
-                </Button>
-              </>
-            )}
-          </div>
+        <div className="flex items-center gap-2 flex-wrap">
+          <Button size="sm" onClick={() => setImportOpen(true)} className="h-8 text-xs gap-1">
+            <Upload className="h-3.5 w-3.5" />
+            导入礼品码
+          </Button>
+          <Button size="sm" variant="outline" className="h-7 text-[11px]" onClick={() => handleBatchAction('已退款', '未售卖')}>
+            批量已退款→未售卖
+          </Button>
+          <Button size="sm" variant="outline" className="h-7 text-[11px]" onClick={() => handleBatchAction('已退款', '无效')}>
+            批量已退款→无效
+          </Button>
+          <Button size="sm" variant="outline" className="h-7 text-[11px]" onClick={() => handleBatchAction('已退货', '未售卖')}>
+            批量已退货→未售卖
+          </Button>
+          <Button size="sm" variant="outline" className="h-7 text-[11px]" onClick={() => handleBatchAction('已退货', '无效')}>
+            批量已退货→无效
+          </Button>
+          {selectedIds.length > 0 && (
+            <span className="text-xs text-muted-foreground ml-2">已选 {selectedIds.length} 项</span>
+          )}
         </div>
 
         {/* Table */}
