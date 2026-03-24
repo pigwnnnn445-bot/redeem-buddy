@@ -6,14 +6,16 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { mockSKUs } from "@/lib/giftcode-data";
 import { toast } from "sonner";
+import type { GiftCode } from "@/lib/giftcode-data";
 
 interface ImportSheetProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onImport: (skuId: string, codes: string[]) => void;
+  existingCodes: GiftCode[];
 }
 
-const ImportSheet = ({ open, onOpenChange, onImport }: ImportSheetProps) => {
+const ImportSheet = ({ open, onOpenChange, onImport, existingCodes }: ImportSheetProps) => {
   const [selectedSku, setSelectedSku] = useState("");
   const [codesText, setCodesText] = useState("");
 
@@ -24,16 +26,42 @@ const ImportSheet = ({ open, onOpenChange, onImport }: ImportSheetProps) => {
       toast.error("请选择SKU");
       return;
     }
-    const codes = codesText.split('\n').map(c => c.trim()).filter(Boolean);
-    if (codes.length === 0) {
+    const rawCodes = codesText.split('\n').map(c => c.trim()).filter(Boolean);
+    if (rawCodes.length === 0) {
       toast.error("请输入至少一个礼品码");
       return;
     }
-    onImport(selectedSku, codes);
+
+    // Deduplicate within input
+    const uniqueInputCodes = [...new Set(rawCodes)];
+    const inputDupCount = rawCodes.length - uniqueInputCodes.length;
+
+    // Find SKU name for the selected SKU
+    const skuName = giftCodeSKUs.find(s => s.id === selectedSku)?.name || '';
+
+    // Check against existing codes for same SKU
+    const existingCodesForSku = new Set(
+      existingCodes
+        .filter(c => c.skuName === skuName)
+        .map(c => c.code)
+    );
+    const newCodes = uniqueInputCodes.filter(c => !existingCodesForSku.has(c));
+    const existDupCount = uniqueInputCodes.length - newCodes.length;
+
+    if (newCodes.length === 0) {
+      toast.error("所有礼品码均已存在，无需导入");
+      return;
+    }
+
+    onImport(selectedSku, newCodes);
     setSelectedSku("");
     setCodesText("");
     onOpenChange(false);
-    toast.success(`成功导入 ${codes.length} 个礼品码`);
+
+    let msg = `成功导入 ${newCodes.length} 个礼品码`;
+    if (inputDupCount > 0) msg += `，输入去重 ${inputDupCount} 个`;
+    if (existDupCount > 0) msg += `，已存在跳过 ${existDupCount} 个`;
+    toast.success(msg);
   };
 
   return (

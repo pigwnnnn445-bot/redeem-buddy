@@ -1,7 +1,12 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search, RotateCcw } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { Search, RotateCcw, CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { zhCN } from "date-fns/locale";
+import { mockCreators } from "@/lib/giftcode-data";
 
 interface FilterBarProps {
   filters: {
@@ -13,8 +18,10 @@ interface FilterBarProps {
     orderNo: string;
     createdBy: string;
     swapStatus: string;
+    dateFrom: Date | undefined;
+    dateTo: Date | undefined;
   };
-  onFilterChange: (key: string, value: string) => void;
+  onFilterChange: (key: string, value: any) => void;
   onSearch: () => void;
   onReset: () => void;
 }
@@ -22,7 +29,7 @@ interface FilterBarProps {
 const FilterBar = ({ filters, onFilterChange, onSearch, onReset }: FilterBarProps) => {
   return (
     <div className="bg-card rounded-md border border-border p-4 space-y-3">
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
         <Input
           placeholder="SKU名称"
           value={filters.skuName}
@@ -70,12 +77,17 @@ const FilterBar = ({ filters, onFilterChange, onSearch, onReset }: FilterBarProp
           onChange={(e) => onFilterChange('orderNo', e.target.value)}
           className="h-8 text-xs"
         />
-        <Input
-          placeholder="创建人"
-          value={filters.createdBy}
-          onChange={(e) => onFilterChange('createdBy', e.target.value)}
-          className="h-8 text-xs"
-        />
+        <Select value={filters.createdBy} onValueChange={(v) => onFilterChange('createdBy', v)}>
+          <SelectTrigger className="h-8 text-xs">
+            <SelectValue placeholder="创建人" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">全部创建人</SelectItem>
+            {mockCreators.map(c => (
+              <SelectItem key={c} value={c}>{c}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
         <Select value={filters.swapStatus} onValueChange={(v) => onFilterChange('swapStatus', v)}>
           <SelectTrigger className="h-8 text-xs">
             <SelectValue placeholder="换码状态" />
@@ -86,6 +98,38 @@ const FilterBar = ({ filters, onFilterChange, onSearch, onReset }: FilterBarProp
             <SelectItem value="empty">空</SelectItem>
           </SelectContent>
         </Select>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="outline" className="h-8 text-xs gap-1 justify-start font-normal">
+              <CalendarIcon className="h-3.5 w-3.5" />
+              {filters.dateFrom ? format(filters.dateFrom, 'yyyy-MM-dd', { locale: zhCN }) : '开始日期'}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <Calendar
+              mode="single"
+              selected={filters.dateFrom}
+              onSelect={(d) => onFilterChange('dateFrom', d)}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="outline" className="h-8 text-xs gap-1 justify-start font-normal">
+              <CalendarIcon className="h-3.5 w-3.5" />
+              {filters.dateTo ? format(filters.dateTo, 'yyyy-MM-dd', { locale: zhCN }) : '结束日期'}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <Calendar
+              mode="single"
+              selected={filters.dateTo}
+              onSelect={(d) => onFilterChange('dateTo', d)}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
       </div>
       <div className="flex gap-2">
         <Button size="sm" onClick={onSearch} className="h-8 text-xs gap-1">
