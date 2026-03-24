@@ -62,7 +62,6 @@ const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, o
 
   const canSwapCode = (item: GiftCode) => {
     return item.status === '已售卖' && item.viewStatus === '已查看';
-  }
   };
 
   return (
