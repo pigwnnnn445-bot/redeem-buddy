@@ -101,11 +101,13 @@ export const mockGiftCodes: GiftCode[] = [
   },
   {
     id: '8', skuName: 'Netflix 月卡', code: 'NF-CDEF-7890-GHIJ',
-    status: '无效', viewStatus: '已查看', userEmail: null, orderNo: null,
-    createdAt: '2026-03-15 10:30:00', createdBy: 'admin', swapStatus: '', remark: '',
+    status: '无效', viewStatus: '已查看', userEmail: 'invalid@user.com', orderNo: 'ORD-20260315-022',
+    createdAt: '2026-03-15 10:30:00', createdBy: 'admin', swapStatus: '', remark: '码已被使用，标记无效',
     logs: [
       { id: 'log-6', recordId: '8', remark: '创建礼品码', time: '2026-03-15 10:30:00', operator: 'admin' },
-      { id: 'log-6b', recordId: '8', remark: '标记为无效', time: '2026-03-16 09:00:00', operator: 'admin' },
+      { id: 'log-6a', recordId: '8', remark: '状态变更: 未售卖 → 已售卖', time: '2026-03-15 14:00:00', operator: 'invalid@user.com' },
+      { id: 'log-6b', recordId: '8', remark: '状态变更: 已售卖 → 已退款', time: '2026-03-15 18:00:00', operator: 'admin' },
+      { id: 'log-6c', recordId: '8', remark: '状态变更: 已退款 → 无效', time: '2026-03-16 09:00:00', operator: 'admin' },
     ],
   },
   {
