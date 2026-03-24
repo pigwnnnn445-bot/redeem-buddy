@@ -146,6 +146,16 @@ const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, o
                             {action.label}
                           </Button>
                         ))}
+                        {canSwapCode(item) && (
+                          <Button
+                            variant="link"
+                            size="sm"
+                            className="h-6 px-1 text-[11px] text-primary"
+                            onClick={() => onStatusChange(item.id, '已售卖', '已退货')}
+                          >
+                            一键换码
+                          </Button>
+                        )}
                         <Button
                           variant="link"
                           size="sm"
