@@ -68,6 +68,10 @@ const Index = () => {
     });
   }, [giftCodes, activeFilters]);
 
+  const totalPages = Math.max(1, Math.ceil(filteredData.length / PAGE_SIZE));
+  const safeCurrentPage = Math.min(currentPage, totalPages);
+  const paginatedData = filteredData.slice((safeCurrentPage - 1) * PAGE_SIZE, safeCurrentPage * PAGE_SIZE);
+
   const handleStatusChange = (id: string, from: GiftCodeStatus, to: GiftCodeStatus) => {
     const item = giftCodes.find(g => g.id === id);
     if (!item) {
