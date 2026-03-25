@@ -219,13 +219,63 @@ const Index = () => {
         </div>
 
         <GiftCodeTable
-          data={filteredData}
+          data={paginatedData}
           selectedIds={selectedIds}
           onSelectionChange={setSelectedIds}
           onStatusChange={handleStatusChange}
           onRemarkChange={handleRemarkChange}
           onSwapCode={handleSwapCode}
         />
+
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between pt-2">
+            <span className="text-xs text-muted-foreground">
+              第 {safeCurrentPage}/{totalPages} 页，共 {filteredData.length} 条
+            </span>
+            <div className="flex items-center gap-1">
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-7 text-xs"
+                disabled={safeCurrentPage <= 1}
+                onClick={() => setCurrentPage(p => p - 1)}
+              >
+                上一页
+              </Button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1)
+                .filter(p => p === 1 || p === totalPages || Math.abs(p - safeCurrentPage) <= 2)
+                .reduce<(number | string)[]>((acc, p, i, arr) => {
+                  if (i > 0 && p - (arr[i - 1] as number) > 1) acc.push('...');
+                  acc.push(p);
+                  return acc;
+                }, [])
+                .map((p, i) =>
+                  typeof p === 'string' ? (
+                    <span key={`ellipsis-${i}`} className="px-1 text-xs text-muted-foreground">...</span>
+                  ) : (
+                    <Button
+                      key={p}
+                      variant={p === safeCurrentPage ? 'default' : 'outline'}
+                      size="sm"
+                      className="h-7 w-7 text-xs p-0"
+                      onClick={() => setCurrentPage(p)}
+                    >
+                      {p}
+                    </Button>
+                  )
+                )}
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-7 text-xs"
+                disabled={safeCurrentPage >= totalPages}
+                onClick={() => setCurrentPage(p => p + 1)}
+              >
+                下一页
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
 
       <ImportSheet open={importOpen} onOpenChange={setImportOpen} onImport={handleImport} existingCodes={giftCodes} />
