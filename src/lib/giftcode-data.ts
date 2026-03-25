@@ -206,4 +206,58 @@ export const mockGiftCodes: GiftCode[] = [
       { id: 'log-14c', recordId: '18', remark: '状态变更: 已售卖 → 已退款', time: '2026-03-24 12:00:00', operator: 'grace@example.com' },
     ],
   },
+  {
+    id: '19', skuName: 'Netflix 月卡', code: 'NF-ABCD-2001-XXYY',
+    status: '未售卖', viewStatus: '未查看', userEmail: null, orderNo: null,
+    createdAt: '2026-03-24 11:00:00', createdBy: 'admin', swapStatus: '', swapCount: 0, soldAt: null, remark: '', logs: [],
+  },
+  {
+    id: '20', skuName: 'Spotify 季卡', code: 'SP-EFGH-2002-AABB',
+    status: '未售卖', viewStatus: '未查看', userEmail: null, orderNo: null,
+    createdAt: '2026-03-24 11:05:00', createdBy: 'operator1', swapStatus: '', swapCount: 0, soldAt: null, remark: '', logs: [],
+  },
+  {
+    id: '21', skuName: 'Steam 50美元', code: 'ST-IJKL-2003-CCDD',
+    status: '已售卖', viewStatus: '已查看', userEmail: 'henry@mail.com', orderNo: 'ORD-20260324-401',
+    createdAt: '2026-03-24 11:10:00', createdBy: 'operator2', swapStatus: '', swapCount: 0, soldAt: '2026-03-24 14:00:00', remark: '',
+    logs: [
+      { id: 'log-15', recordId: '21', remark: '创建礼品码', time: '2026-03-24 11:10:00', operator: 'operator2' },
+      { id: 'log-15b', recordId: '21', remark: '状态变更: 未售卖 → 已售卖', time: '2026-03-24 14:00:00', operator: 'henry@mail.com' },
+    ],
+  },
+  {
+    id: '22', skuName: 'iTunes 25美元', code: 'IT-MNOP-2004-EEFF',
+    status: '已售卖', viewStatus: '未查看', userEmail: 'iris@test.com', orderNo: 'ORD-20260324-402',
+    createdAt: '2026-03-24 11:15:00', createdBy: 'admin', swapStatus: '', swapCount: 0, soldAt: '2026-03-24 15:00:00', remark: '',
+    logs: [
+      { id: 'log-16', recordId: '22', remark: '创建礼品码', time: '2026-03-24 11:15:00', operator: 'admin' },
+      { id: 'log-16b', recordId: '22', remark: '状态变更: 未售卖 → 已售卖', time: '2026-03-24 15:00:00', operator: 'iris@test.com' },
+    ],
+  },
+  {
+    id: '23', skuName: 'Netflix 月卡', code: 'NF-QRST-2005-GGHH',
+    status: '未售卖', viewStatus: '未查看', userEmail: null, orderNo: null,
+    createdAt: '2026-03-24 11:20:00', createdBy: 'operator1', swapStatus: '', swapCount: 0, soldAt: null, remark: '', logs: [],
+  },
+  {
+    id: '24', skuName: 'Spotify 季卡', code: 'SP-UVWX-2006-IIJJ',
+    status: '已退款', viewStatus: '已查看', userEmail: 'jack@mail.com', orderNo: 'ORD-20260320-501',
+    createdAt: '2026-03-20 09:00:00', createdBy: 'admin', swapStatus: '', swapCount: 0, soldAt: '2026-03-20 13:00:00', remark: '',
+    logs: [
+      { id: 'log-17', recordId: '24', remark: '创建礼品码', time: '2026-03-20 09:00:00', operator: 'admin' },
+      { id: 'log-17b', recordId: '24', remark: '状态变更: 未售卖 → 已售卖', time: '2026-03-20 13:00:00', operator: 'jack@mail.com' },
+      { id: 'log-17c', recordId: '24', remark: '状态变更: 已售卖 → 已退款', time: '2026-03-21 10:00:00', operator: 'admin' },
+    ],
+  },
+  {
+    id: '25', skuName: 'Steam 50美元', code: 'ST-YZAB-2007-KKLL',
+    status: '已退货', viewStatus: '已查看', userEmail: 'kate@example.com', orderNo: 'ORD-20260319-601',
+    createdAt: '2026-03-19 14:00:00', createdBy: 'operator2', swapStatus: '', swapCount: 1, soldAt: '2026-03-19 18:30:00', remark: '',
+    logs: [
+      { id: 'log-18', recordId: '25', remark: '创建礼品码', time: '2026-03-19 14:00:00', operator: 'operator2' },
+      { id: 'log-18b', recordId: '25', remark: '状态变更: 未售卖 → 已售卖', time: '2026-03-19 18:30:00', operator: 'kate@example.com' },
+      { id: 'log-18c', recordId: '25', remark: '一键换码操作', time: '2026-03-20 10:00:00', operator: 'admin' },
+      { id: 'log-18d', recordId: '25', remark: '状态变更: 已售卖 → 已退货', time: '2026-03-20 15:00:00', operator: 'admin' },
+    ],
+  },
 ];
