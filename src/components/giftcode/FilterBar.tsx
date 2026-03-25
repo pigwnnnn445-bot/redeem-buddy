@@ -108,12 +108,11 @@ const FilterBar = ({ filters, onFilterChange, onSearch, onReset }: FilterBarProp
           onChange={(e) => onFilterChange('swapCount', e.target.value)}
           className="h-8 text-xs"
         />
-        <div className="flex items-center gap-1 text-xs text-muted-foreground whitespace-nowrap">创建时间</div>
         <Popover>
           <PopoverTrigger asChild>
             <Button variant="outline" className="h-8 text-xs gap-1 justify-start font-normal">
               <CalendarIcon className="h-3.5 w-3.5" />
-              {filters.dateFrom ? format(filters.dateFrom, 'yyyy-MM-dd', { locale: zhCN }) : '开始日期'}
+              {filters.dateFrom ? format(filters.dateFrom, 'yyyy-MM-dd', { locale: zhCN }) : '创建开始'}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
@@ -122,6 +121,7 @@ const FilterBar = ({ filters, onFilterChange, onSearch, onReset }: FilterBarProp
               selected={filters.dateFrom}
               onSelect={(d) => onFilterChange('dateFrom', d)}
               initialFocus
+              className="p-3 pointer-events-auto"
             />
           </PopoverContent>
         </Popover>
@@ -129,7 +129,7 @@ const FilterBar = ({ filters, onFilterChange, onSearch, onReset }: FilterBarProp
           <PopoverTrigger asChild>
             <Button variant="outline" className="h-8 text-xs gap-1 justify-start font-normal">
               <CalendarIcon className="h-3.5 w-3.5" />
-              {filters.dateTo ? format(filters.dateTo, 'yyyy-MM-dd', { locale: zhCN }) : '结束日期'}
+              {filters.dateTo ? format(filters.dateTo, 'yyyy-MM-dd', { locale: zhCN }) : '创建结束'}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
@@ -138,15 +138,15 @@ const FilterBar = ({ filters, onFilterChange, onSearch, onReset }: FilterBarProp
               selected={filters.dateTo}
               onSelect={(d) => onFilterChange('dateTo', d)}
               initialFocus
+              className="p-3 pointer-events-auto"
             />
           </PopoverContent>
         </Popover>
-        <div className="flex items-center gap-1 text-xs text-muted-foreground whitespace-nowrap">售卖时间</div>
         <Popover>
           <PopoverTrigger asChild>
             <Button variant="outline" className="h-8 text-xs gap-1 justify-start font-normal">
               <CalendarIcon className="h-3.5 w-3.5" />
-              {filters.soldFrom ? format(filters.soldFrom, 'yyyy-MM-dd', { locale: zhCN }) : '开始日期'}
+              {filters.soldFrom ? format(filters.soldFrom, 'yyyy-MM-dd', { locale: zhCN }) : '售卖开始'}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
@@ -155,6 +155,7 @@ const FilterBar = ({ filters, onFilterChange, onSearch, onReset }: FilterBarProp
               selected={filters.soldFrom}
               onSelect={(d) => onFilterChange('soldFrom', d)}
               initialFocus
+              className="p-3 pointer-events-auto"
             />
           </PopoverContent>
         </Popover>
@@ -162,7 +163,7 @@ const FilterBar = ({ filters, onFilterChange, onSearch, onReset }: FilterBarProp
           <PopoverTrigger asChild>
             <Button variant="outline" className="h-8 text-xs gap-1 justify-start font-normal">
               <CalendarIcon className="h-3.5 w-3.5" />
-              {filters.soldTo ? format(filters.soldTo, 'yyyy-MM-dd', { locale: zhCN }) : '结束日期'}
+              {filters.soldTo ? format(filters.soldTo, 'yyyy-MM-dd', { locale: zhCN }) : '售卖结束'}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
@@ -171,6 +172,7 @@ const FilterBar = ({ filters, onFilterChange, onSearch, onReset }: FilterBarProp
               selected={filters.soldTo}
               onSelect={(d) => onFilterChange('soldTo', d)}
               initialFocus
+              className="p-3 pointer-events-auto"
             />
           </PopoverContent>
         </Popover>
