@@ -85,7 +85,11 @@ const Index = () => {
         remark: `状态变更: ${from} → ${to}`,
         time: new Date().toLocaleString('zh-CN'), operator: 'admin',
       };
-      return { ...g, status: to, logs: [...g.logs, log] };
+      const updates: Partial<GiftCode> = { status: to, logs: [...g.logs, log] };
+      if (from === '已售卖' && g.swapStatus === '换码中') {
+        updates.swapStatus = '' as const;
+      }
+      return { ...g, ...updates };
     }));
     toast.success(`礼品码状态已从 ${from} 变更为 ${to}`);
   };
