@@ -21,8 +21,8 @@ interface GiftCodeTableProps {
 const statusColorMap: Record<GiftCodeStatus, string> = {
   '未售卖': 'bg-secondary text-secondary-foreground',
   '已售卖': 'bg-success text-success-foreground',
-  '已退款': 'bg-destructive text-destructive-foreground',
-  '已退货': 'bg-warning text-warning-foreground',
+  '已退款': 'bg-warning text-warning-foreground',
+  '已退货': 'bg-destructive text-destructive-foreground',
   '无效': 'bg-muted text-muted-foreground',
 };
 
