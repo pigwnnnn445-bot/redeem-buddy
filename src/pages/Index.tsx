@@ -80,15 +80,35 @@ const Index = () => {
     }
     setGiftCodes(prev => prev.map(g => {
       if (g.id !== id) return g;
-      const log = {
+      const now = new Date().toLocaleString('zh-CN');
+      const newLogs = [...g.logs];
+      newLogs.push({
         id: `log-${Date.now()}`, recordId: id,
         remark: `状态变更: ${from} → ${to}`,
-        time: new Date().toLocaleString('zh-CN'), operator: 'admin',
-      };
-      const updates: Partial<GiftCode> = { status: to, logs: [...g.logs, log] };
+        time: now, operator: 'admin',
+      });
+
+      const updates: Partial<GiftCode> = { status: to };
+
+      // 已退款/已退货 → 未售卖：解绑用户、订单号，清空售卖时间、换码次数，查看状态→未查看
+      if ((from === '已退款' || from === '已退货') && to === '未售卖') {
+        updates.userEmail = null;
+        updates.orderNo = null;
+        updates.soldAt = null;
+        updates.swapCount = 0;
+        updates.viewStatus = '未查看';
+        updates.swapStatus = '' as const;
+        newLogs.push({ id: `log-${Date.now()}-unbind`, recordId: id, remark: '解绑用户邮箱、订单号', time: now, operator: 'admin' });
+        newLogs.push({ id: `log-${Date.now()}-clear`, recordId: id, remark: '清空售卖时间、换码次数', time: now, operator: 'admin' });
+        newLogs.push({ id: `log-${Date.now()}-view`, recordId: id, remark: '查看状态变更: 已查看 → 未查看', time: now, operator: 'admin' });
+      }
+
+      // 已售卖离开时清除换码状态
       if (from === '已售卖' && g.swapStatus === '换码中') {
         updates.swapStatus = '' as const;
       }
+
+      updates.logs = newLogs;
       return { ...g, ...updates };
     }));
     toast.success(`礼品码状态已从 ${from} 变更为 ${to}`);
@@ -170,7 +190,6 @@ const Index = () => {
       toast.error('请先选择礼品码');
       return;
     }
-    // 实时校验每条记录的当前状态
     const eligible = selectedIds.filter(id => {
       const item = giftCodes.find(g => g.id === id);
       return item?.status === from;
@@ -182,17 +201,34 @@ const Index = () => {
     }
     setGiftCodes(prev => prev.map(item => {
       if (!eligible.includes(item.id)) return item;
-      // 再次校验防止并发状态变更
       if (item.status !== from) return item;
-      const log = {
+      const now = new Date().toLocaleString('zh-CN');
+      const newLogs = [...item.logs];
+      newLogs.push({
         id: `log-${Date.now()}-${item.id}`, recordId: item.id,
         remark: `批量操作 - 状态变更: ${from} → ${to}`,
-        time: new Date().toLocaleString('zh-CN'), operator: 'admin',
-      };
-      const updates: Partial<GiftCode> = { status: to, logs: [...item.logs, log] };
+        time: now, operator: 'admin',
+      });
+
+      const updates: Partial<GiftCode> = { status: to };
+
+      if ((from === '已退款' || from === '已退货') && to === '未售卖') {
+        updates.userEmail = null;
+        updates.orderNo = null;
+        updates.soldAt = null;
+        updates.swapCount = 0;
+        updates.viewStatus = '未查看';
+        updates.swapStatus = '' as const;
+        newLogs.push({ id: `log-${Date.now()}-${item.id}-unbind`, recordId: item.id, remark: '解绑用户邮箱、订单号', time: now, operator: 'admin' });
+        newLogs.push({ id: `log-${Date.now()}-${item.id}-clear`, recordId: item.id, remark: '清空售卖时间、换码次数', time: now, operator: 'admin' });
+        newLogs.push({ id: `log-${Date.now()}-${item.id}-view`, recordId: item.id, remark: '查看状态变更: 已查看 → 未查看', time: now, operator: 'admin' });
+      }
+
       if (from === '已售卖' && item.swapStatus === '换码中') {
         updates.swapStatus = '' as const;
       }
+
+      updates.logs = newLogs;
       return { ...item, ...updates };
     }));
     setSelectedIds([]);
