@@ -217,6 +217,9 @@ const Index = () => {
           <Button size="sm" variant="outline" className="h-7 text-[11px]" onClick={() => handleBatchAction('已退货', '无效')}>
             批量已退货→无效
           </Button>
+          <Button size="sm" variant="outline" className="h-7 text-[11px]" onClick={() => handleBatchAction('未售卖', '无效')}>
+            批量未售卖→无效
+          </Button>
           {selectedIds.length > 0 && (
             <span className="text-xs text-muted-foreground ml-2">已选 {selectedIds.length} 项</span>
           )}
