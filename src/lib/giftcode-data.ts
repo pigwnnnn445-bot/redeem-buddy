@@ -66,7 +66,7 @@ export const mockGiftCodes: GiftCode[] = [
     createdAt: '2026-03-20 16:02:43', createdBy: 'admin', swapStatus: '', swapCount: 0, soldAt: '2026-03-21 10:00:00', remark: '',
     logs: [
       { id: 'log-1', recordId: '3', remark: '创建礼品码', time: '2026-03-20 16:02:43', operator: 'admin' },
-      { id: 'log-1b', recordId: '3', remark: '状态变更: 未售卖 → 已售卖', time: '2026-03-21 10:00:00', operator: 'user@example.com' },
+      { id: 'log-1b', recordId: '3', remark: '状态变更: 未售卖 → 已售卖，绑定用户: user@example.com，订单号: ORD-20260320-001，售卖时间: 2026-03-21 10:00:00', time: '2026-03-21 10:00:00', operator: 'user@example.com' },
       { id: 'log-1c', recordId: '3', remark: '查看状态变更: 未查看 → 已查看', time: '2026-03-21 10:05:00', operator: 'user@example.com' },
     ],
   },
@@ -76,7 +76,7 @@ export const mockGiftCodes: GiftCode[] = [
     createdAt: '2026-03-22 09:30:00', createdBy: 'operator2', swapStatus: '', swapCount: 0, soldAt: '2026-03-22 14:00:00', remark: '',
     logs: [
       { id: 'log-2', recordId: '4', remark: '创建礼品码', time: '2026-03-22 09:30:00', operator: 'operator2' },
-      { id: 'log-2b', recordId: '4', remark: '状态变更: 未售卖 → 已售卖', time: '2026-03-22 14:00:00', operator: 'newbuyer@test.com' },
+      { id: 'log-2b', recordId: '4', remark: '状态变更: 未售卖 → 已售卖，绑定用户: newbuyer@test.com，订单号: ORD-20260322-010，售卖时间: 2026-03-22 14:00:00', time: '2026-03-22 14:00:00', operator: 'newbuyer@test.com' },
     ],
   },
   {
@@ -85,7 +85,7 @@ export const mockGiftCodes: GiftCode[] = [
     createdAt: '2026-03-19 11:00:00', createdBy: 'admin', swapStatus: '换码中', swapCount: 1, soldAt: '2026-03-19 18:00:00', remark: '客户反馈码无效',
     logs: [
       { id: 'log-3', recordId: '5', remark: '创建礼品码', time: '2026-03-19 11:00:00', operator: 'admin' },
-      { id: 'log-3b', recordId: '5', remark: '状态变更: 未售卖 → 已售卖', time: '2026-03-19 18:00:00', operator: 'admin' },
+      { id: 'log-3b', recordId: '5', remark: '状态变更: 未售卖 → 已售卖，绑定用户: alice@mail.com，订单号: ORD-20260319-055，售卖时间: 2026-03-19 18:00:00', time: '2026-03-19 18:00:00', operator: 'admin' },
       { id: 'log-3b2', recordId: '5', remark: '查看状态变更: 未查看 → 已查看', time: '2026-03-19 20:00:00', operator: 'alice@mail.com' },
       { id: 'log-3c', recordId: '5', remark: '一键换码操作', time: '2026-03-20 09:00:00', operator: 'admin' },
     ],
@@ -96,7 +96,7 @@ export const mockGiftCodes: GiftCode[] = [
     createdAt: '2026-03-17 04:13:45', createdBy: 'operator1', swapStatus: '', swapCount: 0, soldAt: '2026-03-17 07:30:12', remark: '客户要求退款',
     logs: [
       { id: 'log-4', recordId: '6', remark: '创建礼品码', time: '2026-03-17 04:13:45', operator: 'operator1' },
-      { id: 'log-4b', recordId: '6', remark: '状态变更: 未售卖 → 已售卖', time: '2026-03-17 07:30:12', operator: 'buyer@test.com' },
+      { id: 'log-4b', recordId: '6', remark: '状态变更: 未售卖 → 已售卖，绑定用户: buyer@test.com，订单号: ORD-20260317-045，售卖时间: 2026-03-17 07:30:12', time: '2026-03-17 07:30:12', operator: 'buyer@test.com' },
       { id: 'log-4b2', recordId: '6', remark: '查看状态变更: 未查看 → 已查看', time: '2026-03-17 08:00:00', operator: 'buyer@test.com' },
       { id: 'log-4c', recordId: '6', remark: '状态变更: 已售卖 → 已退款', time: '2026-03-18 10:00:00', operator: 'admin' },
     ],
@@ -107,7 +107,7 @@ export const mockGiftCodes: GiftCode[] = [
     createdAt: '2026-03-17 04:13:23', createdBy: 'operator1', swapStatus: '', swapCount: 2, soldAt: '2026-03-18 06:00:00', remark: '',
     logs: [
       { id: 'log-5', recordId: '7', remark: '创建礼品码', time: '2026-03-17 04:13:23', operator: 'operator1' },
-      { id: 'log-5b', recordId: '7', remark: '状态变更: 未售卖 → 已售卖', time: '2026-03-18 06:00:00', operator: 'admin' },
+      { id: 'log-5b', recordId: '7', remark: '状态变更: 未售卖 → 已售卖，绑定用户: customer@mail.com，订单号: ORD-20260317-046，售卖时间: 2026-03-18 06:00:00', time: '2026-03-18 06:00:00', operator: 'admin' },
       { id: 'log-5b2', recordId: '7', remark: '查看状态变更: 未查看 → 已查看', time: '2026-03-18 08:00:00', operator: 'customer@mail.com' },
       { id: 'log-5c', recordId: '7', remark: '一键换码操作', time: '2026-03-18 12:00:00', operator: 'admin' },
       { id: 'log-5d', recordId: '7', remark: '一键换码操作', time: '2026-03-19 06:00:00', operator: 'admin' },
@@ -120,7 +120,7 @@ export const mockGiftCodes: GiftCode[] = [
     createdAt: '2026-03-15 10:30:00', createdBy: 'admin', swapStatus: '', swapCount: 0, soldAt: '2026-03-15 14:00:00', remark: '码已被使用，标记无效',
     logs: [
       { id: 'log-6', recordId: '8', remark: '创建礼品码', time: '2026-03-15 10:30:00', operator: 'admin' },
-      { id: 'log-6a', recordId: '8', remark: '状态变更: 未售卖 → 已售卖', time: '2026-03-15 14:00:00', operator: 'invalid@user.com' },
+      { id: 'log-6a', recordId: '8', remark: '状态变更: 未售卖 → 已售卖，绑定用户: invalid@user.com，订单号: ORD-20260315-022，售卖时间: 2026-03-15 14:00:00', time: '2026-03-15 14:00:00', operator: 'invalid@user.com' },
       { id: 'log-6a2', recordId: '8', remark: '查看状态变更: 未查看 → 已查看', time: '2026-03-15 14:30:00', operator: 'invalid@user.com' },
       { id: 'log-6b', recordId: '8', remark: '状态变更: 已售卖 → 已退款', time: '2026-03-15 18:00:00', operator: 'admin' },
       { id: 'log-6c', recordId: '8', remark: '状态变更: 已退款 → 无效', time: '2026-03-16 09:00:00', operator: 'admin' },
@@ -132,7 +132,7 @@ export const mockGiftCodes: GiftCode[] = [
     createdAt: '2026-03-10 08:00:00', createdBy: 'admin', swapStatus: '', swapCount: 0, soldAt: '2026-03-11 12:00:00', remark: '',
     logs: [
       { id: 'log-7', recordId: '9', remark: '创建礼品码', time: '2026-03-10 08:00:00', operator: 'admin' },
-      { id: 'log-7b', recordId: '9', remark: '状态变更: 未售卖 → 已售卖', time: '2026-03-11 12:00:00', operator: 'refund@user.com' },
+      { id: 'log-7b', recordId: '9', remark: '状态变更: 未售卖 → 已售卖，绑定用户: refund@user.com，订单号: ORD-20260310-100，售卖时间: 2026-03-11 12:00:00', time: '2026-03-11 12:00:00', operator: 'refund@user.com' },
       { id: 'log-7b2', recordId: '9', remark: '查看状态变更: 未查看 → 已查看', time: '2026-03-11 13:00:00', operator: 'refund@user.com' },
       { id: 'log-7c', recordId: '9', remark: '状态变更: 已售卖 → 已退款', time: '2026-03-12 09:00:00', operator: 'admin' },
     ],
@@ -143,7 +143,7 @@ export const mockGiftCodes: GiftCode[] = [
     createdAt: '2026-03-12 14:22:00', createdBy: 'operator2', swapStatus: '', swapCount: 1, soldAt: '2026-03-13 11:00:00', remark: '',
     logs: [
       { id: 'log-8', recordId: '10', remark: '创建礼品码', time: '2026-03-12 14:22:00', operator: 'operator2' },
-      { id: 'log-8b', recordId: '10', remark: '状态变更: 未售卖 → 已售卖', time: '2026-03-13 11:00:00', operator: 'admin' },
+      { id: 'log-8b', recordId: '10', remark: '状态变更: 未售卖 → 已售卖，绑定用户: return@user.com，订单号: ORD-20260312-200，售卖时间: 2026-03-13 11:00:00', time: '2026-03-13 11:00:00', operator: 'admin' },
       { id: 'log-8b2', recordId: '10', remark: '查看状态变更: 未查看 → 已查看', time: '2026-03-13 14:00:00', operator: 'return@user.com' },
       { id: 'log-8c', recordId: '10', remark: '一键换码操作', time: '2026-03-14 10:00:00', operator: 'admin' },
       { id: 'log-8d', recordId: '10', remark: '状态变更: 已售卖 → 已退货', time: '2026-03-14 15:00:00', operator: 'admin' },
@@ -155,7 +155,7 @@ export const mockGiftCodes: GiftCode[] = [
     createdAt: '2026-03-21 08:15:00', createdBy: 'operator1', swapStatus: '换码中', swapCount: 2, soldAt: '2026-03-21 15:00:00', remark: '等待新码',
     logs: [
       { id: 'log-9', recordId: '11', remark: '创建礼品码', time: '2026-03-21 08:15:00', operator: 'operator1' },
-      { id: 'log-9b', recordId: '11', remark: '状态变更: 未售卖 → 已售卖', time: '2026-03-21 15:00:00', operator: 'admin' },
+      { id: 'log-9b', recordId: '11', remark: '状态变更: 未售卖 → 已售卖，绑定用户: bob@example.com，订单号: ORD-20260321-077，售卖时间: 2026-03-21 15:00:00', time: '2026-03-21 15:00:00', operator: 'admin' },
       { id: 'log-9b2', recordId: '11', remark: '查看状态变更: 未查看 → 已查看', time: '2026-03-21 18:00:00', operator: 'bob@example.com' },
       { id: 'log-9c', recordId: '11', remark: '一键换码操作', time: '2026-03-22 09:00:00', operator: 'admin' },
       { id: 'log-9d', recordId: '11', remark: '一键换码操作', time: '2026-03-23 09:00:00', operator: 'admin' },
@@ -175,7 +175,7 @@ export const mockGiftCodes: GiftCode[] = [
     createdAt: '2026-03-18 13:45:00', createdBy: 'admin', swapStatus: '', swapCount: 0, soldAt: '2026-03-18 20:00:00', remark: '',
     logs: [
       { id: 'log-10', recordId: '13', remark: '创建礼品码', time: '2026-03-18 13:45:00', operator: 'admin' },
-      { id: 'log-10b', recordId: '13', remark: '状态变更: 未售卖 → 已售卖', time: '2026-03-18 20:00:00', operator: 'charlie@mail.com' },
+      { id: 'log-10b', recordId: '13', remark: '状态变更: 未售卖 → 已售卖，绑定用户: charlie@mail.com，订单号: ORD-20260318-033，售卖时间: 2026-03-18 20:00:00', time: '2026-03-18 20:00:00', operator: 'charlie@mail.com' },
       { id: 'log-10b2', recordId: '13', remark: '查看状态变更: 未查看 → 已查看', time: '2026-03-18 21:00:00', operator: 'charlie@mail.com' },
     ],
   },
@@ -185,7 +185,7 @@ export const mockGiftCodes: GiftCode[] = [
     createdAt: '2026-03-16 17:00:00', createdBy: 'operator1', swapStatus: '', swapCount: 0, soldAt: '2026-03-16 22:00:00', remark: '重复购买退款',
     logs: [
       { id: 'log-11', recordId: '14', remark: '创建礼品码', time: '2026-03-16 17:00:00', operator: 'operator1' },
-      { id: 'log-11b', recordId: '14', remark: '状态变更: 未售卖 → 已售卖', time: '2026-03-16 22:00:00', operator: 'david@test.com' },
+      { id: 'log-11b', recordId: '14', remark: '状态变更: 未售卖 → 已售卖，绑定用户: david@test.com，订单号: ORD-20260316-088，售卖时间: 2026-03-16 22:00:00', time: '2026-03-16 22:00:00', operator: 'david@test.com' },
       { id: 'log-11b2', recordId: '14', remark: '查看状态变更: 未查看 → 已查看', time: '2026-03-16 23:00:00', operator: 'david@test.com' },
       { id: 'log-11c', recordId: '14', remark: '状态变更: 已售卖 → 已退款', time: '2026-03-17 10:00:00', operator: 'admin' },
     ],
@@ -204,7 +204,7 @@ export const mockGiftCodes: GiftCode[] = [
     createdAt: '2026-03-22 11:00:00', createdBy: 'operator1', swapStatus: '', swapCount: 0, soldAt: '2026-03-22 16:00:00', remark: '',
     logs: [
       { id: 'log-12', recordId: '16', remark: '创建礼品码', time: '2026-03-22 11:00:00', operator: 'operator1' },
-      { id: 'log-12b', recordId: '16', remark: '状态变更: 未售卖 → 已售卖', time: '2026-03-22 16:00:00', operator: 'emma@mail.com' },
+      { id: 'log-12b', recordId: '16', remark: '状态变更: 未售卖 → 已售卖，绑定用户: emma@mail.com，订单号: ORD-20260322-111，售卖时间: 2026-03-22 16:00:00', time: '2026-03-22 16:00:00', operator: 'emma@mail.com' },
       { id: 'log-12c', recordId: '16', remark: '状态变更: 已售卖 → 已退款', time: '2026-03-23 09:00:00', operator: 'emma@mail.com' },
     ],
   },
@@ -214,7 +214,7 @@ export const mockGiftCodes: GiftCode[] = [
     createdAt: '2026-03-23 07:30:00', createdBy: 'admin', swapStatus: '', swapCount: 0, soldAt: '2026-03-23 10:00:00', remark: '用户主动申请退款',
     logs: [
       { id: 'log-13', recordId: '17', remark: '创建礼品码', time: '2026-03-23 07:30:00', operator: 'admin' },
-      { id: 'log-13b', recordId: '17', remark: '状态变更: 未售卖 → 已售卖', time: '2026-03-23 10:00:00', operator: 'frank@test.com' },
+      { id: 'log-13b', recordId: '17', remark: '状态变更: 未售卖 → 已售卖，绑定用户: frank@test.com，订单号: ORD-20260323-222，售卖时间: 2026-03-23 10:00:00', time: '2026-03-23 10:00:00', operator: 'frank@test.com' },
       { id: 'log-13c', recordId: '17', remark: '状态变更: 已售卖 → 已退款', time: '2026-03-23 18:00:00', operator: 'frank@test.com' },
     ],
   },
@@ -224,7 +224,7 @@ export const mockGiftCodes: GiftCode[] = [
     createdAt: '2026-03-24 08:00:00', createdBy: 'operator2', swapStatus: '', swapCount: 0, soldAt: '2026-03-24 10:30:00', remark: '',
     logs: [
       { id: 'log-14', recordId: '18', remark: '创建礼品码', time: '2026-03-24 08:00:00', operator: 'operator2' },
-      { id: 'log-14b', recordId: '18', remark: '状态变更: 未售卖 → 已售卖', time: '2026-03-24 10:30:00', operator: 'grace@example.com' },
+      { id: 'log-14b', recordId: '18', remark: '状态变更: 未售卖 → 已售卖，绑定用户: grace@example.com，订单号: ORD-20260324-333，售卖时间: 2026-03-24 10:30:00', time: '2026-03-24 10:30:00', operator: 'grace@example.com' },
       { id: 'log-14c', recordId: '18', remark: '状态变更: 已售卖 → 已退款', time: '2026-03-24 12:00:00', operator: 'grace@example.com' },
     ],
   },
@@ -250,7 +250,7 @@ export const mockGiftCodes: GiftCode[] = [
     createdAt: '2026-03-24 11:10:00', createdBy: 'operator2', swapStatus: '', swapCount: 0, soldAt: '2026-03-24 14:00:00', remark: '',
     logs: [
       { id: 'log-15', recordId: '21', remark: '创建礼品码', time: '2026-03-24 11:10:00', operator: 'operator2' },
-      { id: 'log-15b', recordId: '21', remark: '状态变更: 未售卖 → 已售卖', time: '2026-03-24 14:00:00', operator: 'henry@mail.com' },
+      { id: 'log-15b', recordId: '21', remark: '状态变更: 未售卖 → 已售卖，绑定用户: henry@mail.com，订单号: ORD-20260324-401，售卖时间: 2026-03-24 14:00:00', time: '2026-03-24 14:00:00', operator: 'henry@mail.com' },
       { id: 'log-15b2', recordId: '21', remark: '查看状态变更: 未查看 → 已查看', time: '2026-03-24 15:00:00', operator: 'henry@mail.com' },
     ],
   },
@@ -260,7 +260,7 @@ export const mockGiftCodes: GiftCode[] = [
     createdAt: '2026-03-24 11:15:00', createdBy: 'admin', swapStatus: '', swapCount: 0, soldAt: '2026-03-24 15:00:00', remark: '',
     logs: [
       { id: 'log-16', recordId: '22', remark: '创建礼品码', time: '2026-03-24 11:15:00', operator: 'admin' },
-      { id: 'log-16b', recordId: '22', remark: '状态变更: 未售卖 → 已售卖', time: '2026-03-24 15:00:00', operator: 'iris@test.com' },
+      { id: 'log-16b', recordId: '22', remark: '状态变更: 未售卖 → 已售卖，绑定用户: iris@test.com，订单号: ORD-20260324-402，售卖时间: 2026-03-24 15:00:00', time: '2026-03-24 15:00:00', operator: 'iris@test.com' },
     ],
   },
   {
@@ -277,7 +277,7 @@ export const mockGiftCodes: GiftCode[] = [
     createdAt: '2026-03-20 09:00:00', createdBy: 'admin', swapStatus: '', swapCount: 0, soldAt: '2026-03-20 13:00:00', remark: '',
     logs: [
       { id: 'log-17', recordId: '24', remark: '创建礼品码', time: '2026-03-20 09:00:00', operator: 'admin' },
-      { id: 'log-17b', recordId: '24', remark: '状态变更: 未售卖 → 已售卖', time: '2026-03-20 13:00:00', operator: 'jack@mail.com' },
+      { id: 'log-17b', recordId: '24', remark: '状态变更: 未售卖 → 已售卖，绑定用户: jack@mail.com，订单号: ORD-20260320-501，售卖时间: 2026-03-20 13:00:00', time: '2026-03-20 13:00:00', operator: 'jack@mail.com' },
       { id: 'log-17b2', recordId: '24', remark: '查看状态变更: 未查看 → 已查看', time: '2026-03-20 14:00:00', operator: 'jack@mail.com' },
       { id: 'log-17c', recordId: '24', remark: '状态变更: 已售卖 → 已退款', time: '2026-03-21 10:00:00', operator: 'admin' },
     ],
