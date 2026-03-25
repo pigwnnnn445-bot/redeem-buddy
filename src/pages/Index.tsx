@@ -108,17 +108,44 @@ const Index = () => {
       if (g.id !== id) return g;
       const log = {
         id: `log-${Date.now()}`, recordId: id,
-        remark: '一键换码操作',
+        remark: '一键换码操作，进入换码中状态',
         time: new Date().toLocaleString('zh-CN'), operator: 'admin',
       };
       return {
         ...g,
-        status: '已退货' as const,
+        swapStatus: '换码中' as const,
         swapCount: g.swapCount + 1,
         logs: [...g.logs, log],
       };
     }));
-    toast.success('一键换码成功，状态已变更为已退货');
+    toast.success('换码操作已发起，状态变更为换码中');
+  };
+
+  const handleCancelSwap = (id: string) => {
+    const item = giftCodes.find(g => g.id === id);
+    if (!item) {
+      toast.error('礼品码不存在');
+      return;
+    }
+    if (item.status !== '已售卖' || item.swapStatus !== '换码中') {
+      toast.error('操作失败：当前不在换码中状态，无法取消');
+      return;
+    }
+    if (!window.confirm('确认取消换码？取消后换码状态将恢复为空。')) return;
+    setGiftCodes(prev => prev.map(g => {
+      if (g.id !== id) return g;
+      const log = {
+        id: `log-${Date.now()}`, recordId: id,
+        remark: '取消换码操作',
+        time: new Date().toLocaleString('zh-CN'), operator: 'admin',
+      };
+      return {
+        ...g,
+        swapStatus: '' as const,
+        logs: [...g.logs, log],
+      };
+    }));
+    toast.success('已取消换码');
   };
 
   const handleRemarkChange = (id: string, remark: string) => {
@@ -228,6 +255,7 @@ const Index = () => {
           onStatusChange={handleStatusChange}
           onRemarkChange={handleRemarkChange}
           onSwapCode={handleSwapCode}
+          onCancelSwap={handleCancelSwap}
         />
 
         {totalPages > 1 && (
