@@ -47,12 +47,18 @@ export const mockGiftCodes: GiftCode[] = [
   {
     id: '1', skuName: 'Netflix 月卡', code: 'NF-ABCD-1234-EFGH',
     status: '未售卖', viewStatus: '未查看', userEmail: null, orderNo: null,
-    createdAt: '2026-03-23 15:18:35', createdBy: 'admin', swapStatus: '', swapCount: 0, soldAt: null, remark: '', logs: [],
+    createdAt: '2026-03-23 15:18:35', createdBy: 'admin', swapStatus: '', swapCount: 0, soldAt: null, remark: '',
+    logs: [
+      { id: 'log-0a', recordId: '1', remark: '创建礼品码', time: '2026-03-23 15:18:35', operator: 'admin' },
+    ],
   },
   {
     id: '2', skuName: 'Netflix 月卡', code: 'NF-QWER-4567-TYUI',
     status: '未售卖', viewStatus: '未查看', userEmail: null, orderNo: null,
-    createdAt: '2026-03-23 14:00:00', createdBy: 'operator1', swapStatus: '', swapCount: 0, soldAt: null, remark: '', logs: [],
+    createdAt: '2026-03-23 14:00:00', createdBy: 'operator1', swapStatus: '', swapCount: 0, soldAt: null, remark: '',
+    logs: [
+      { id: 'log-0b', recordId: '2', remark: '创建礼品码', time: '2026-03-23 14:00:00', operator: 'operator1' },
+    ],
   },
   {
     id: '3', skuName: 'Spotify 季卡', code: 'SP-WXYZ-5678-IJKL',
@@ -158,7 +164,10 @@ export const mockGiftCodes: GiftCode[] = [
   {
     id: '12', skuName: 'Spotify 季卡', code: 'SP-FGHJ-2233-KLZX',
     status: '未售卖', viewStatus: '未查看', userEmail: null, orderNo: null,
-    createdAt: '2026-03-24 09:00:00', createdBy: 'operator2', swapStatus: '', swapCount: 0, soldAt: null, remark: '', logs: [],
+    createdAt: '2026-03-24 09:00:00', createdBy: 'operator2', swapStatus: '', swapCount: 0, soldAt: null, remark: '',
+    logs: [
+      { id: 'log-0c', recordId: '12', remark: '创建礼品码', time: '2026-03-24 09:00:00', operator: 'operator2' },
+    ],
   },
   {
     id: '13', skuName: 'iTunes 25美元', code: 'IT-BNMC-4455-VWQR',
@@ -184,7 +193,10 @@ export const mockGiftCodes: GiftCode[] = [
   {
     id: '15', skuName: 'Netflix 月卡', code: 'NF-TYUI-8899-OPAS',
     status: '未售卖', viewStatus: '未查看', userEmail: null, orderNo: null,
-    createdAt: '2026-03-24 10:30:00', createdBy: 'admin', swapStatus: '', swapCount: 0, soldAt: null, remark: '', logs: [],
+    createdAt: '2026-03-24 10:30:00', createdBy: 'admin', swapStatus: '', swapCount: 0, soldAt: null, remark: '',
+    logs: [
+      { id: 'log-0d', recordId: '15', remark: '创建礼品码', time: '2026-03-24 10:30:00', operator: 'admin' },
+    ],
   },
   {
     id: '16', skuName: 'Netflix 月卡', code: 'NF-QAZW-1122-SXED',
@@ -219,12 +231,18 @@ export const mockGiftCodes: GiftCode[] = [
   {
     id: '19', skuName: 'Netflix 月卡', code: 'NF-ABCD-2001-XXYY',
     status: '未售卖', viewStatus: '未查看', userEmail: null, orderNo: null,
-    createdAt: '2026-03-24 11:00:00', createdBy: 'admin', swapStatus: '', swapCount: 0, soldAt: null, remark: '', logs: [],
+    createdAt: '2026-03-24 11:00:00', createdBy: 'admin', swapStatus: '', swapCount: 0, soldAt: null, remark: '',
+    logs: [
+      { id: 'log-0e', recordId: '19', remark: '创建礼品码', time: '2026-03-24 11:00:00', operator: 'admin' },
+    ],
   },
   {
     id: '20', skuName: 'Spotify 季卡', code: 'SP-EFGH-2002-AABB',
     status: '未售卖', viewStatus: '未查看', userEmail: null, orderNo: null,
-    createdAt: '2026-03-24 11:05:00', createdBy: 'operator1', swapStatus: '', swapCount: 0, soldAt: null, remark: '', logs: [],
+    createdAt: '2026-03-24 11:05:00', createdBy: 'operator1', swapStatus: '', swapCount: 0, soldAt: null, remark: '',
+    logs: [
+      { id: 'log-0f', recordId: '20', remark: '创建礼品码', time: '2026-03-24 11:05:00', operator: 'operator1' },
+    ],
   },
   {
     id: '21', skuName: 'Steam 50美元', code: 'ST-IJKL-2003-CCDD',
@@ -248,7 +266,10 @@ export const mockGiftCodes: GiftCode[] = [
   {
     id: '23', skuName: 'Netflix 月卡', code: 'NF-QRST-2005-GGHH',
     status: '未售卖', viewStatus: '未查看', userEmail: null, orderNo: null,
-    createdAt: '2026-03-24 11:20:00', createdBy: 'operator1', swapStatus: '', swapCount: 0, soldAt: null, remark: '', logs: [],
+    createdAt: '2026-03-24 11:20:00', createdBy: 'operator1', swapStatus: '', swapCount: 0, soldAt: null, remark: '',
+    logs: [
+      { id: 'log-0g', recordId: '23', remark: '创建礼品码', time: '2026-03-24 11:20:00', operator: 'operator1' },
+    ],
   },
   {
     id: '24', skuName: 'Spotify 季卡', code: 'SP-UVWX-2006-IIJJ',
