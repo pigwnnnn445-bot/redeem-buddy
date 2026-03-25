@@ -189,7 +189,11 @@ const Index = () => {
         remark: `批量操作 - 状态变更: ${from} → ${to}`,
         time: new Date().toLocaleString('zh-CN'), operator: 'admin',
       };
-      return { ...item, status: to, logs: [...item.logs, log] };
+      const updates: Partial<GiftCode> = { status: to, logs: [...item.logs, log] };
+      if (from === '已售卖' && item.swapStatus === '换码中') {
+        updates.swapStatus = '' as const;
+      }
+      return { ...item, ...updates };
     }));
     setSelectedIds([]);
     const msg = skipped > 0
