@@ -66,31 +66,53 @@ const Index = () => {
   }, [giftCodes, activeFilters]);
 
   const handleStatusChange = (id: string, from: GiftCodeStatus, to: GiftCodeStatus) => {
-    setGiftCodes(prev => prev.map(item => {
-      if (item.id !== id) return item;
+    const item = giftCodes.find(g => g.id === id);
+    if (!item) {
+      toast.error('礼品码不存在');
+      return;
+    }
+    if (item.status !== from) {
+      toast.error(`操作失败：当前状态为"${item.status}"，非"${from}"，无法执行该操作`);
+      return;
+    }
+    setGiftCodes(prev => prev.map(g => {
+      if (g.id !== id) return g;
       const log = {
         id: `log-${Date.now()}`, recordId: id,
         remark: `状态变更: ${from} → ${to}`,
         time: new Date().toLocaleString('zh-CN'), operator: 'admin',
       };
-      return { ...item, status: to, logs: [...item.logs, log] };
+      return { ...g, status: to, logs: [...g.logs, log] };
     }));
     toast.success(`礼品码状态已从 ${from} 变更为 ${to}`);
   };
 
   const handleSwapCode = (id: string) => {
-    setGiftCodes(prev => prev.map(item => {
-      if (item.id !== id) return item;
+    const item = giftCodes.find(g => g.id === id);
+    if (!item) {
+      toast.error('礼品码不存在');
+      return;
+    }
+    if (item.status !== '已售卖') {
+      toast.error(`操作失败：当前状态为"${item.status}"，非"已售卖"，无法执行换码`);
+      return;
+    }
+    if (item.viewStatus !== '已查看') {
+      toast.error('操作失败：当前查看状态为"未查看"，无法执行换码');
+      return;
+    }
+    setGiftCodes(prev => prev.map(g => {
+      if (g.id !== id) return g;
       const log = {
         id: `log-${Date.now()}`, recordId: id,
         remark: '一键换码操作',
         time: new Date().toLocaleString('zh-CN'), operator: 'admin',
       };
       return {
-        ...item,
+        ...g,
         status: '已退货' as const,
-        swapCount: item.swapCount + 1,
-        logs: [...item.logs, log],
+        swapCount: g.swapCount + 1,
+        logs: [...g.logs, log],
       };
     }));
     toast.success('一键换码成功，状态已变更为已退货');
@@ -110,16 +132,24 @@ const Index = () => {
   };
 
   const handleBatchAction = (from: GiftCodeStatus, to: GiftCodeStatus) => {
+    if (selectedIds.length === 0) {
+      toast.error('请先选择礼品码');
+      return;
+    }
+    // 实时校验每条记录的当前状态
     const eligible = selectedIds.filter(id => {
       const item = giftCodes.find(g => g.id === id);
       return item?.status === from;
     });
+    const skipped = selectedIds.length - eligible.length;
     if (eligible.length === 0) {
-      toast.error(`选中项中没有状态为"${from}"的礼品码`);
+      toast.error(`选中项中没有状态为"${from}"的礼品码，无法执行操作`);
       return;
     }
     setGiftCodes(prev => prev.map(item => {
       if (!eligible.includes(item.id)) return item;
+      // 再次校验防止并发状态变更
+      if (item.status !== from) return item;
       const log = {
         id: `log-${Date.now()}-${item.id}`, recordId: item.id,
         remark: `批量操作 - 状态变更: ${from} → ${to}`,
@@ -128,7 +158,10 @@ const Index = () => {
       return { ...item, status: to, logs: [...item.logs, log] };
     }));
     setSelectedIds([]);
-    toast.success(`已批量变更 ${eligible.length} 个礼品码状态`);
+    const msg = skipped > 0
+      ? `成功变更 ${eligible.length} 条，跳过 ${skipped} 条状态不符的记录`
+      : `已批量变更 ${eligible.length} 个礼品码状态`;
+    toast.success(msg);
   };
 
   const handleImport = (skuId: string, codes: string[]) => {
