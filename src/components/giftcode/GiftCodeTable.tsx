@@ -3,7 +3,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Pencil } from "lucide-react";
+import { FileText, Pencil, Copy } from "lucide-react";
+import { toast } from "sonner";
 import type { GiftCode, GiftCodeStatus } from "@/lib/giftcode-data";
 import OperationLogSheet from "./OperationLogSheet";
 import EditRemarkDialog from "./EditRemarkDialog";
@@ -14,6 +15,7 @@ interface GiftCodeTableProps {
   onSelectionChange: (ids: string[]) => void;
   onStatusChange: (id: string, from: GiftCodeStatus, to: GiftCodeStatus) => void;
   onRemarkChange: (id: string, remark: string) => void;
+  onSwapCode: (id: string) => void;
 }
 
 const statusColorMap: Record<GiftCodeStatus, string> = {
@@ -24,7 +26,7 @@ const statusColorMap: Record<GiftCodeStatus, string> = {
   '无效': 'bg-muted text-muted-foreground',
 };
 
-const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, onRemarkChange }: GiftCodeTableProps) => {
+const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, onRemarkChange, onSwapCode }: GiftCodeTableProps) => {
   const [logSheet, setLogSheet] = useState<{ open: boolean; logs: GiftCode['logs']; giftCodeId: string }>({
     open: false, logs: [], giftCodeId: '',
   });
@@ -44,6 +46,14 @@ const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, o
         ? selectedIds.filter(i => i !== id)
         : [...selectedIds, id]
     );
+  };
+
+  const copyCode = (code: string) => {
+    navigator.clipboard.writeText(code).then(() => {
+      toast.success('礼品码已复制到剪贴板');
+    }).catch(() => {
+      toast.error('复制失败');
+    });
   };
 
   const getAvailableActions = (status: GiftCodeStatus): { label: string; from: GiftCodeStatus; to: GiftCodeStatus }[] => {
@@ -81,8 +91,10 @@ const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, o
               <TableHead className="text-xs font-semibold">用户邮箱</TableHead>
               <TableHead className="text-xs font-semibold">订单号</TableHead>
               <TableHead className="text-xs font-semibold">创建时间</TableHead>
+              <TableHead className="text-xs font-semibold">售卖时间</TableHead>
               <TableHead className="text-xs font-semibold">创建人</TableHead>
               <TableHead className="text-xs font-semibold">一键换码</TableHead>
+              <TableHead className="text-xs font-semibold">换码次数</TableHead>
               <TableHead className="text-xs font-semibold">备注</TableHead>
               <TableHead className="text-xs font-semibold">操作</TableHead>
             </TableRow>
@@ -90,7 +102,7 @@ const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, o
           <TableBody>
             {data.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={13} className="text-center text-muted-foreground py-16 text-sm">
+                <TableCell colSpan={15} className="text-center text-muted-foreground py-16 text-sm">
                   暂无数据
                 </TableCell>
               </TableRow>
@@ -107,7 +119,16 @@ const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, o
                     </TableCell>
                     <TableCell className="text-xs font-mono text-muted-foreground">{item.id}</TableCell>
                     <TableCell className="text-xs font-medium">{item.skuName}</TableCell>
-                    <TableCell className="text-xs font-mono">{item.code}</TableCell>
+                    <TableCell>
+                      <button
+                        className="text-xs font-mono text-primary hover:text-primary/80 hover:underline cursor-pointer flex items-center gap-1"
+                        onClick={() => copyCode(item.code)}
+                        title="点击复制"
+                      >
+                        {item.code}
+                        <Copy className="h-3 w-3 opacity-50" />
+                      </button>
+                    </TableCell>
                     <TableCell>
                       <Badge variant="secondary" className={`text-[10px] px-1.5 py-0.5 ${statusColorMap[item.status]}`}>
                         {item.status}
@@ -121,6 +142,7 @@ const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, o
                     <TableCell className="text-xs text-muted-foreground">{item.userEmail || '-'}</TableCell>
                     <TableCell className="text-xs text-muted-foreground">{item.orderNo || '-'}</TableCell>
                     <TableCell className="text-xs text-muted-foreground">{item.createdAt}</TableCell>
+                    <TableCell className="text-xs text-muted-foreground">{item.soldAt || '-'}</TableCell>
                     <TableCell className="text-xs">{item.createdBy}</TableCell>
                     <TableCell>
                       {item.swapStatus ? (
@@ -129,6 +151,7 @@ const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, o
                         <span className="text-xs text-muted-foreground">-</span>
                       )}
                     </TableCell>
+                    <TableCell className="text-xs text-muted-foreground">{item.swapCount}</TableCell>
                     <TableCell className="text-xs text-muted-foreground max-w-[120px] truncate" title={item.remark}>
                       {item.remark || '-'}
                     </TableCell>
@@ -150,7 +173,7 @@ const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, o
                             variant="link"
                             size="sm"
                             className="h-6 px-1 text-[11px] text-primary"
-                            onClick={() => onStatusChange(item.id, '已售卖', '已退货')}
+                            onClick={() => onSwapCode(item.id)}
                           >
                             一键换码
                           </Button>

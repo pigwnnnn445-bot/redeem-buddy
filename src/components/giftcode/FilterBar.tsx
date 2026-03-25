@@ -18,8 +18,11 @@ interface FilterBarProps {
     orderNo: string;
     createdBy: string;
     swapStatus: string;
+    swapCount: string;
     dateFrom: Date | undefined;
     dateTo: Date | undefined;
+    soldFrom: Date | undefined;
+    soldTo: Date | undefined;
   };
   onFilterChange: (key: string, value: any) => void;
   onSearch: () => void;
@@ -98,6 +101,13 @@ const FilterBar = ({ filters, onFilterChange, onSearch, onReset }: FilterBarProp
             <SelectItem value="empty">空</SelectItem>
           </SelectContent>
         </Select>
+        <Input
+          placeholder="换码次数"
+          type="number"
+          value={filters.swapCount}
+          onChange={(e) => onFilterChange('swapCount', e.target.value)}
+          className="h-8 text-xs"
+        />
         <div className="flex items-center gap-1 text-xs text-muted-foreground whitespace-nowrap">创建时间</div>
         <Popover>
           <PopoverTrigger asChild>
@@ -127,6 +137,39 @@ const FilterBar = ({ filters, onFilterChange, onSearch, onReset }: FilterBarProp
               mode="single"
               selected={filters.dateTo}
               onSelect={(d) => onFilterChange('dateTo', d)}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
+        <div className="flex items-center gap-1 text-xs text-muted-foreground whitespace-nowrap">售卖时间</div>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="outline" className="h-8 text-xs gap-1 justify-start font-normal">
+              <CalendarIcon className="h-3.5 w-3.5" />
+              {filters.soldFrom ? format(filters.soldFrom, 'yyyy-MM-dd', { locale: zhCN }) : '开始日期'}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <Calendar
+              mode="single"
+              selected={filters.soldFrom}
+              onSelect={(d) => onFilterChange('soldFrom', d)}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="outline" className="h-8 text-xs gap-1 justify-start font-normal">
+              <CalendarIcon className="h-3.5 w-3.5" />
+              {filters.soldTo ? format(filters.soldTo, 'yyyy-MM-dd', { locale: zhCN }) : '结束日期'}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <Calendar
+              mode="single"
+              selected={filters.soldTo}
+              onSelect={(d) => onFilterChange('soldTo', d)}
               initialFocus
             />
           </PopoverContent>
