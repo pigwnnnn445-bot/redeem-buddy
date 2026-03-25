@@ -29,6 +29,67 @@ interface FilterBarProps {
   onReset: () => void;
 }
 
+const setTimeOnDate = (date: Date | undefined, timeStr: string): Date | undefined => {
+  if (!date) return undefined;
+  const [h, m, s] = timeStr.split(':').map(Number);
+  const d = new Date(date);
+  d.setHours(h || 0, m || 0, s || 0, 0);
+  return d;
+};
+
+const getTimeStr = (date: Date | undefined): string => {
+  if (!date) return '00:00:00';
+  return format(date, 'HH:mm:ss');
+};
+
+const DateTimePicker = ({
+  date,
+  onDateChange,
+  placeholder,
+}: {
+  date: Date | undefined;
+  onDateChange: (d: Date | undefined) => void;
+  placeholder: string;
+}) => {
+  const handleDateSelect = (d: Date | undefined) => {
+    if (!d) { onDateChange(undefined); return; }
+    const time = getTimeStr(date);
+    onDateChange(setTimeOnDate(d, time));
+  };
+
+  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!date) return;
+    onDateChange(setTimeOnDate(date, e.target.value));
+  };
+
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button variant="outline" className="h-8 text-xs gap-1 justify-start font-normal flex-1 min-w-0">
+          <CalendarIcon className="h-3.5 w-3.5 shrink-0" />
+          <span className="truncate">
+            {date ? format(date, 'yyyy-MM-dd HH:mm:ss', { locale: zhCN }) : placeholder}
+          </span>
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-auto p-0" align="start">
+        <Calendar mode="single" selected={date} onSelect={handleDateSelect} initialFocus className="p-3 pointer-events-auto" />
+        <div className="px-3 pb-3 flex items-center gap-2">
+          <span className="text-xs text-muted-foreground">时间</span>
+          <Input
+            type="time"
+            step="1"
+            value={getTimeStr(date)}
+            onChange={handleTimeChange}
+            className="h-7 text-xs w-[110px]"
+            disabled={!date}
+          />
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+};
+
 const FilterBar = ({ filters, onFilterChange, onSearch, onReset }: FilterBarProps) => {
   return (
     <div className="bg-card rounded-md border border-border p-4 space-y-3">
@@ -110,55 +171,15 @@ const FilterBar = ({ filters, onFilterChange, onSearch, onReset }: FilterBarProp
         />
         <div className="col-span-2 flex items-center gap-2">
           <span className="text-xs text-muted-foreground whitespace-nowrap">创建时间</span>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="outline" className="h-8 text-xs gap-1 justify-start font-normal flex-1">
-                <CalendarIcon className="h-3.5 w-3.5" />
-                {filters.dateFrom ? format(filters.dateFrom, 'yyyy-MM-dd', { locale: zhCN }) : '开始日期'}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar mode="single" selected={filters.dateFrom} onSelect={(d) => onFilterChange('dateFrom', d)} initialFocus className="p-3 pointer-events-auto" />
-            </PopoverContent>
-          </Popover>
+          <DateTimePicker date={filters.dateFrom} onDateChange={(d) => onFilterChange('dateFrom', d)} placeholder="开始时间" />
           <span className="text-xs text-muted-foreground">~</span>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="outline" className="h-8 text-xs gap-1 justify-start font-normal flex-1">
-                <CalendarIcon className="h-3.5 w-3.5" />
-                {filters.dateTo ? format(filters.dateTo, 'yyyy-MM-dd', { locale: zhCN }) : '结束日期'}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar mode="single" selected={filters.dateTo} onSelect={(d) => onFilterChange('dateTo', d)} initialFocus className="p-3 pointer-events-auto" />
-            </PopoverContent>
-          </Popover>
+          <DateTimePicker date={filters.dateTo} onDateChange={(d) => onFilterChange('dateTo', d)} placeholder="结束时间" />
         </div>
         <div className="col-span-2 flex items-center gap-2">
           <span className="text-xs text-muted-foreground whitespace-nowrap">售卖时间</span>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="outline" className="h-8 text-xs gap-1 justify-start font-normal flex-1">
-                <CalendarIcon className="h-3.5 w-3.5" />
-                {filters.soldFrom ? format(filters.soldFrom, 'yyyy-MM-dd', { locale: zhCN }) : '开始日期'}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar mode="single" selected={filters.soldFrom} onSelect={(d) => onFilterChange('soldFrom', d)} initialFocus className="p-3 pointer-events-auto" />
-            </PopoverContent>
-          </Popover>
+          <DateTimePicker date={filters.soldFrom} onDateChange={(d) => onFilterChange('soldFrom', d)} placeholder="开始时间" />
           <span className="text-xs text-muted-foreground">~</span>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="outline" className="h-8 text-xs gap-1 justify-start font-normal flex-1">
-                <CalendarIcon className="h-3.5 w-3.5" />
-                {filters.soldTo ? format(filters.soldTo, 'yyyy-MM-dd', { locale: zhCN }) : '结束日期'}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar mode="single" selected={filters.soldTo} onSelect={(d) => onFilterChange('soldTo', d)} initialFocus className="p-3 pointer-events-auto" />
-            </PopoverContent>
-          </Popover>
+          <DateTimePicker date={filters.soldTo} onDateChange={(d) => onFilterChange('soldTo', d)} placeholder="结束时间" />
         </div>
       </div>
       <div className="flex gap-2">

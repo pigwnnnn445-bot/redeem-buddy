@@ -47,10 +47,8 @@ const Index = () => {
         if (itemDate < f.dateFrom) return false;
       }
       if (f.dateTo) {
-        const endOfDay = new Date(f.dateTo);
-        endOfDay.setHours(23, 59, 59, 999);
         const itemDate = new Date(item.createdAt);
-        if (itemDate > endOfDay) return false;
+        if (itemDate > f.dateTo) return false;
       }
       if (f.soldFrom && item.soldAt) {
         const soldDate = new Date(item.soldAt);
@@ -58,10 +56,8 @@ const Index = () => {
       }
       if (f.soldFrom && !item.soldAt) return false;
       if (f.soldTo && item.soldAt) {
-        const endOfDay = new Date(f.soldTo);
-        endOfDay.setHours(23, 59, 59, 999);
         const soldDate = new Date(item.soldAt);
-        if (soldDate > endOfDay) return false;
+        if (soldDate > f.soldTo) return false;
       }
       if (f.soldTo && !item.soldAt) return false;
       return true;
