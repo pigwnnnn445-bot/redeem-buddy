@@ -16,6 +16,7 @@ interface GiftCodeTableProps {
   onStatusChange: (id: string, from: GiftCodeStatus, to: GiftCodeStatus) => void;
   onRemarkChange: (id: string, remark: string) => void;
   onSwapCode: (id: string) => void;
+  onCancelSwap: (id: string) => void;
 }
 
 const statusColorMap: Record<GiftCodeStatus, string> = {
@@ -26,7 +27,7 @@ const statusColorMap: Record<GiftCodeStatus, string> = {
   '无效': 'bg-muted text-muted-foreground',
 };
 
-const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, onRemarkChange, onSwapCode }: GiftCodeTableProps) => {
+const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, onRemarkChange, onSwapCode, onCancelSwap }: GiftCodeTableProps) => {
   const [logSheet, setLogSheet] = useState<{ open: boolean; logs: GiftCode['logs']; giftCodeId: string }>({
     open: false, logs: [], giftCodeId: '',
   });
@@ -171,7 +172,17 @@ const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, o
                             {action.label}
                           </Button>
                         ))}
-                        {canSwapCode(item) && (
+                        {item.status === '已售卖' && item.swapStatus === '换码中' && (
+                          <Button
+                            variant="link"
+                            size="sm"
+                            className="h-6 px-1 text-[11px] text-destructive"
+                            onClick={() => onCancelSwap(item.id)}
+                          >
+                            取消换码
+                          </Button>
+                        )}
+                        {canSwapCode(item) && item.swapStatus !== '换码中' && (
                           <Button
                             variant="link"
                             size="sm"
