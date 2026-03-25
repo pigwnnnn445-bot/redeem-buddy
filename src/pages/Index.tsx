@@ -98,8 +98,8 @@ const Index = () => {
         updates.swapCount = 0;
         updates.viewStatus = '未查看';
         updates.swapStatus = '' as const;
-        newLogs.push({ id: `log-${Date.now()}-unbind`, recordId: id, remark: '解绑用户邮箱、订单号', time: now, operator: 'admin' });
-        newLogs.push({ id: `log-${Date.now()}-clear`, recordId: id, remark: '清空售卖时间、换码次数', time: now, operator: 'admin' });
+        newLogs.push({ id: `log-${Date.now()}-unbind`, recordId: id, remark: `解绑用户: ${g.userEmail}，订单号: ${g.orderNo}`, time: now, operator: 'admin' });
+        newLogs.push({ id: `log-${Date.now()}-clear`, recordId: id, remark: `清空售卖时间: ${g.soldAt}，换码次数: ${g.swapCount} → 0`, time: now, operator: 'admin' });
         newLogs.push({ id: `log-${Date.now()}-view`, recordId: id, remark: '查看状态变更: 已查看 → 未查看', time: now, operator: 'admin' });
       }
 
@@ -219,8 +219,8 @@ const Index = () => {
         updates.swapCount = 0;
         updates.viewStatus = '未查看';
         updates.swapStatus = '' as const;
-        newLogs.push({ id: `log-${Date.now()}-${item.id}-unbind`, recordId: item.id, remark: '解绑用户邮箱、订单号', time: now, operator: 'admin' });
-        newLogs.push({ id: `log-${Date.now()}-${item.id}-clear`, recordId: item.id, remark: '清空售卖时间、换码次数', time: now, operator: 'admin' });
+        newLogs.push({ id: `log-${Date.now()}-${item.id}-unbind`, recordId: item.id, remark: `解绑用户: ${item.userEmail}，订单号: ${item.orderNo}`, time: now, operator: 'admin' });
+        newLogs.push({ id: `log-${Date.now()}-${item.id}-clear`, recordId: item.id, remark: `清空售卖时间: ${item.soldAt}，换码次数: ${item.swapCount} → 0`, time: now, operator: 'admin' });
         newLogs.push({ id: `log-${Date.now()}-${item.id}-view`, recordId: item.id, remark: '查看状态变更: 已查看 → 未查看', time: now, operator: 'admin' });
       }
 
