@@ -21,8 +21,8 @@ interface GiftCodeTableProps {
 const statusColorMap: Record<GiftCodeStatus, string> = {
   '未售卖': 'bg-secondary text-secondary-foreground',
   '已售卖': 'bg-success text-success-foreground',
-  '已退款': 'bg-warning text-warning-foreground',
-  '已退货': 'bg-destructive text-destructive-foreground',
+  '已退款': 'bg-destructive text-destructive-foreground',
+  '已退货': 'bg-warning text-warning-foreground',
   '无效': 'bg-muted text-muted-foreground',
 };
 
@@ -133,7 +133,7 @@ const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, o
                       </button>
                     </TableCell>
                     <TableCell>
-                      <Badge variant="secondary" className={`text-[10px] px-1.5 py-0.5 ${statusColorMap[item.status]}`}>
+                      <Badge variant="secondary" className={`text-[10px] px-1.5 py-0.5 hover:opacity-100 ${statusColorMap[item.status]}`}>
                         {item.status}
                       </Badge>
                     </TableCell>
