@@ -17,12 +17,15 @@ const defaultFilters = {
   soldTo: undefined as Date | undefined,
 };
 
+const PAGE_SIZE = 20;
+
 const Index = () => {
   const [giftCodes, setGiftCodes] = useState<GiftCode[]>(mockGiftCodes);
   const [filters, setFilters] = useState(defaultFilters);
   const [activeFilters, setActiveFilters] = useState(defaultFilters);
   const [importOpen, setImportOpen] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const filteredData = useMemo(() => {
     return giftCodes.filter(item => {
