@@ -10,8 +10,11 @@ import { mockGiftCodes, mockSKUs, type GiftCode, type GiftCodeStatus } from "@/l
 const defaultFilters = {
   skuName: '', code: '', status: 'all', viewStatus: 'all',
   userEmail: '', orderNo: '', createdBy: 'all', swapStatus: 'all',
+  swapCount: '',
   dateFrom: undefined as Date | undefined,
   dateTo: undefined as Date | undefined,
+  soldFrom: undefined as Date | undefined,
+  soldTo: undefined as Date | undefined,
 };
 
 const Index = () => {
@@ -35,6 +38,7 @@ const Index = () => {
         if (f.swapStatus === 'empty' && item.swapStatus !== '') return false;
         if (f.swapStatus === '换码中' && item.swapStatus !== '换码中') return false;
       }
+      if (f.swapCount !== '' && item.swapCount !== parseInt(f.swapCount)) return false;
       if (f.dateFrom) {
         const itemDate = new Date(item.createdAt);
         if (itemDate < f.dateFrom) return false;
@@ -45,6 +49,18 @@ const Index = () => {
         const itemDate = new Date(item.createdAt);
         if (itemDate > endOfDay) return false;
       }
+      if (f.soldFrom && item.soldAt) {
+        const soldDate = new Date(item.soldAt);
+        if (soldDate < f.soldFrom) return false;
+      }
+      if (f.soldFrom && !item.soldAt) return false;
+      if (f.soldTo && item.soldAt) {
+        const endOfDay = new Date(f.soldTo);
+        endOfDay.setHours(23, 59, 59, 999);
+        const soldDate = new Date(item.soldAt);
+        if (soldDate > endOfDay) return false;
+      }
+      if (f.soldTo && !item.soldAt) return false;
       return true;
     });
   }, [giftCodes, activeFilters]);
@@ -60,6 +76,24 @@ const Index = () => {
       return { ...item, status: to, logs: [...item.logs, log] };
     }));
     toast.success(`礼品码状态已从 ${from} 变更为 ${to}`);
+  };
+
+  const handleSwapCode = (id: string) => {
+    setGiftCodes(prev => prev.map(item => {
+      if (item.id !== id) return item;
+      const log = {
+        id: `log-${Date.now()}`, recordId: id,
+        remark: '一键换码操作',
+        time: new Date().toLocaleString('zh-CN'), operator: 'admin',
+      };
+      return {
+        ...item,
+        status: '已退货' as const,
+        swapCount: item.swapCount + 1,
+        logs: [...item.logs, log],
+      };
+    }));
+    toast.success('一键换码成功，状态已变更为已退货');
   };
 
   const handleRemarkChange = (id: string, remark: string) => {
@@ -105,7 +139,7 @@ const Index = () => {
       status: '未售卖' as const, viewStatus: '未查看' as const,
       userEmail: null, orderNo: null,
       createdAt: new Date().toLocaleString('zh-CN'), createdBy: 'admin',
-      swapStatus: '' as const, remark: '',
+      swapStatus: '' as const, swapCount: 0, soldAt: null, remark: '',
       logs: [{ id: `log-new-${Date.now()}-${i}`, recordId: `${Date.now()}-${i}`, remark: '导入礼品码', time: new Date().toLocaleString('zh-CN'), operator: 'admin' }],
     }));
     setGiftCodes(prev => [...newCodes, ...prev]);
@@ -154,6 +188,7 @@ const Index = () => {
           onSelectionChange={setSelectedIds}
           onStatusChange={handleStatusChange}
           onRemarkChange={handleRemarkChange}
+          onSwapCode={handleSwapCode}
         />
       </div>
 
