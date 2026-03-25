@@ -288,7 +288,7 @@ export const mockGiftCodes: GiftCode[] = [
     createdAt: '2026-03-19 14:00:00', createdBy: 'operator2', swapStatus: '', swapCount: 1, soldAt: '2026-03-19 18:30:00', remark: '',
     logs: [
       { id: 'log-18', recordId: '25', remark: '创建礼品码', time: '2026-03-19 14:00:00', operator: 'operator2' },
-      { id: 'log-18b', recordId: '25', remark: '状态变更: 未售卖 → 已售卖', time: '2026-03-19 18:30:00', operator: 'admin' },
+      { id: 'log-18b', recordId: '25', remark: '状态变更: 未售卖 → 已售卖，绑定用户: kate@example.com，订单号: ORD-20260319-601，售卖时间: 2026-03-19 18:30:00', time: '2026-03-19 18:30:00', operator: 'admin' },
       { id: 'log-18b2', recordId: '25', remark: '查看状态变更: 未查看 → 已查看', time: '2026-03-19 20:00:00', operator: 'kate@example.com' },
       { id: 'log-18c', recordId: '25', remark: '一键换码操作', time: '2026-03-20 10:00:00', operator: 'admin' },
       { id: 'log-18d', recordId: '25', remark: '状态变更: 已售卖 → 已退货', time: '2026-03-20 15:00:00', operator: 'admin' },
