@@ -192,8 +192,8 @@ const Index = () => {
         <FilterBar
           filters={filters}
           onFilterChange={(key, value) => setFilters(prev => ({ ...prev, [key]: value }))}
-          onSearch={() => setActiveFilters(filters)}
-          onReset={() => { setFilters(defaultFilters); setActiveFilters(defaultFilters); }}
+          onSearch={() => { setActiveFilters(filters); setCurrentPage(1); }}
+          onReset={() => { setFilters(defaultFilters); setActiveFilters(defaultFilters); setCurrentPage(1); }}
         />
 
         <div className="flex items-center gap-2 flex-wrap">
