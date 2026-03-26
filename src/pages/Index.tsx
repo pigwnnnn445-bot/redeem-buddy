@@ -143,7 +143,6 @@ const Index = () => {
       return;
     }
     setGiftCodes(prev => prev.map(g => {
-    setGiftCodes(prev => prev.map(g => {
       if (g.id !== id) return g;
       const log = {
         id: `log-${Date.now()}`, recordId: id,
