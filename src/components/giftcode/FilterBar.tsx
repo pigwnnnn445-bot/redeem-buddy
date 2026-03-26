@@ -6,7 +6,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Search, RotateCcw, CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { zhCN } from "date-fns/locale";
-import { mockCreators } from "@/lib/giftcode-data";
+import { mockCreators, mockSKUs } from "@/lib/giftcode-data";
 
 interface FilterBarProps {
   filters: {
@@ -94,12 +94,17 @@ const FilterBar = ({ filters, onFilterChange, onSearch, onReset }: FilterBarProp
   return (
     <div className="bg-card rounded-md border border-border p-4 space-y-3">
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
-        <Input
-          placeholder="SKU名称"
-          value={filters.skuName}
-          onChange={(e) => onFilterChange('skuName', e.target.value)}
-          className="h-8 text-xs"
-        />
+        <Select value={filters.skuName} onValueChange={(v) => onFilterChange('skuName', v)}>
+          <SelectTrigger className="h-8 text-xs">
+            <SelectValue placeholder="SKU名称" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">全部SKU</SelectItem>
+            {mockSKUs.filter(s => s.type === 'gift_code').map(sku => (
+              <SelectItem key={sku.id} value={sku.name}>{sku.name}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
         <Input
           placeholder="礼品码"
           value={filters.code}
