@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import type { GiftCode, GiftCodeStatus } from "@/lib/giftcode-data";
 import OperationLogSheet from "./OperationLogSheet";
 import EditRemarkDialog from "./EditRemarkDialog";
+import ConfirmDialog from "./ConfirmDialog";
 
 interface GiftCodeTableProps {
   data: GiftCode[];
@@ -34,6 +35,11 @@ const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, o
   const [remarkDialog, setRemarkDialog] = useState<{ open: boolean; id: string; remark: string }>({
     open: false, id: '', remark: '',
   });
+  const [confirmDialog, setConfirmDialog] = useState<{
+    open: boolean; title: string; description: string;
+    onConfirm: () => void; variant?: 'default' | 'destructive';
+    confirmText?: string;
+  }>({ open: false, title: '', description: '', onConfirm: () => {} });
 
   const allSelected = data.length > 0 && selectedIds.length === data.length;
 
@@ -159,7 +165,17 @@ const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, o
                             variant="link"
                             size="sm"
                             className="h-6 px-1 text-[11px] text-primary"
-                            onClick={() => onStatusChange(item.id, action.from, action.to)}
+                            onClick={() => setConfirmDialog({
+                              open: true,
+                              title: `确认${action.label}`,
+                              description: `确定要将礼品码 ${item.code} 从"${action.from}"转为"${action.to}"吗？此操作不可撤销。`,
+                              confirmText: action.label,
+                              variant: 'destructive',
+                              onConfirm: () => {
+                                onStatusChange(item.id, action.from, action.to);
+                                setConfirmDialog(prev => ({ ...prev, open: false }));
+                              },
+                            })}
                           >
                             {action.label}
                           </Button>
@@ -169,7 +185,17 @@ const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, o
                             variant="link"
                             size="sm"
                             className="h-6 px-1 text-[11px] text-destructive"
-                            onClick={() => onCancelSwap(item.id)}
+                            onClick={() => setConfirmDialog({
+                              open: true,
+                              title: '确认取消换码',
+                              description: `确定要取消礼品码 ${item.code} 的换码操作吗？取消后换码状态将恢复为空。`,
+                              confirmText: '取消换码',
+                              variant: 'destructive',
+                              onConfirm: () => {
+                                onCancelSwap(item.id);
+                                setConfirmDialog(prev => ({ ...prev, open: false }));
+                              },
+                            })}
                           >
                             取消换码
                           </Button>
@@ -179,7 +205,16 @@ const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, o
                             variant="link"
                             size="sm"
                             className="h-6 px-1 text-[11px] text-primary"
-                            onClick={() => onSwapCode(item.id)}
+                            onClick={() => setConfirmDialog({
+                              open: true,
+                              title: '确认一键换码',
+                              description: `确定要对礼品码 ${item.code} 执行一键换码操作吗？换码次数将+1。`,
+                              confirmText: '一键换码',
+                              onConfirm: () => {
+                                onSwapCode(item.id);
+                                setConfirmDialog(prev => ({ ...prev, open: false }));
+                              },
+                            })}
                           >
                             一键换码
                           </Button>
@@ -227,6 +262,16 @@ const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, o
           onRemarkChange(remarkDialog.id, remark);
           setRemarkDialog({ open: false, id: '', remark: '' });
         }}
+      />
+
+      <ConfirmDialog
+        open={confirmDialog.open}
+        onOpenChange={(open) => setConfirmDialog(prev => ({ ...prev, open }))}
+        title={confirmDialog.title}
+        description={confirmDialog.description}
+        onConfirm={confirmDialog.onConfirm}
+        confirmText={confirmDialog.confirmText}
+        variant={confirmDialog.variant}
       />
     </>
   );
