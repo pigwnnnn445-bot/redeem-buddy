@@ -200,7 +200,7 @@ export const mockGiftCodes: GiftCode[] = [
   },
   {
     id: '16', skuName: 'Netflix 月卡', code: 'NF-QAZW-1122-SXED',
-    status: '已退款', viewStatus: '未查看', userEmail: 'emma@mail.com', orderNo: 'ORD-20260322-111',
+    status: '已退款', viewStatus: '已查看', userEmail: 'emma@mail.com', orderNo: 'ORD-20260322-111',
     createdAt: '2026-03-22 11:00:00', createdBy: 'operator1', swapStatus: '', swapCount: 0, soldAt: '2026-03-22 16:00:00', remark: '',
     logs: [
       { id: 'log-12', recordId: '16', remark: '创建礼品码', time: '2026-03-22 11:00:00', operator: 'operator1' },
@@ -210,7 +210,7 @@ export const mockGiftCodes: GiftCode[] = [
   },
   {
     id: '17', skuName: 'Spotify 季卡', code: 'SP-RFVB-3344-TGHN',
-    status: '已退款', viewStatus: '未查看', userEmail: 'frank@test.com', orderNo: 'ORD-20260323-222',
+    status: '已退款', viewStatus: '已查看', userEmail: 'frank@test.com', orderNo: 'ORD-20260323-222',
     createdAt: '2026-03-23 07:30:00', createdBy: 'admin', swapStatus: '', swapCount: 0, soldAt: '2026-03-23 10:00:00', remark: '用户主动申请退款',
     logs: [
       { id: 'log-13', recordId: '17', remark: '创建礼品码', time: '2026-03-23 07:30:00', operator: 'admin' },
@@ -220,7 +220,7 @@ export const mockGiftCodes: GiftCode[] = [
   },
   {
     id: '18', skuName: 'Steam 50美元', code: 'ST-YHNM-5566-UJKL',
-    status: '已退款', viewStatus: '未查看', userEmail: 'grace@example.com', orderNo: 'ORD-20260324-333',
+    status: '已退款', viewStatus: '已查看', userEmail: 'grace@example.com', orderNo: 'ORD-20260324-333',
     createdAt: '2026-03-24 08:00:00', createdBy: 'operator2', swapStatus: '', swapCount: 0, soldAt: '2026-03-24 10:30:00', remark: '',
     logs: [
       { id: 'log-14', recordId: '18', remark: '创建礼品码', time: '2026-03-24 08:00:00', operator: 'operator2' },
