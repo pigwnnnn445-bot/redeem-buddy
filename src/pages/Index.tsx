@@ -142,7 +142,7 @@ const Index = () => {
       toast.error('操作失败：当前不在换码中状态，无法取消');
       return;
     }
-    if (!window.confirm('确认取消换码？取消后换码状态将恢复为空。')) return;
+    setGiftCodes(prev => prev.map(g => {
     setGiftCodes(prev => prev.map(g => {
       if (g.id !== id) return g;
       const log = {

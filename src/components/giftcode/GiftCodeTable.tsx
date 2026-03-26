@@ -263,6 +263,16 @@ const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, o
           setRemarkDialog({ open: false, id: '', remark: '' });
         }}
       />
+
+      <ConfirmDialog
+        open={confirmDialog.open}
+        onOpenChange={(open) => setConfirmDialog(prev => ({ ...prev, open }))}
+        title={confirmDialog.title}
+        description={confirmDialog.description}
+        onConfirm={confirmDialog.onConfirm}
+        confirmText={confirmDialog.confirmText}
+        variant={confirmDialog.variant}
+      />
     </>
   );
 };
