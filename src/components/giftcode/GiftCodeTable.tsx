@@ -59,14 +59,6 @@ const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, o
 
   const getAvailableActions = (status: GiftCodeStatus): { label: string; from: GiftCodeStatus; to: GiftCodeStatus }[] => {
     switch (status) {
-      case '已退款': return [
-        { label: '转未售卖', from: '已退款', to: '未售卖' },
-        { label: '转无效', from: '已退款', to: '无效' },
-      ];
-      case '已退货': return [
-        { label: '转未售卖', from: '已退货', to: '未售卖' },
-        { label: '转无效', from: '已退货', to: '无效' },
-      ];
       case '未售卖': return [
         { label: '转无效', from: '未售卖', to: '无效' },
       ];
