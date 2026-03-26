@@ -90,19 +90,6 @@ const Index = () => {
 
       const updates: Partial<GiftCode> = { status: to };
 
-      // 已退款/已退货 → 未售卖：解绑用户、订单号，清空售卖时间、换码次数，查看状态→未查看
-      if ((from === '已退款' || from === '已退货') && to === '未售卖') {
-        updates.userEmail = null;
-        updates.orderNo = null;
-        updates.soldAt = null;
-        updates.swapCount = 0;
-        updates.viewStatus = '未查看';
-        updates.swapStatus = '' as const;
-        newLogs.push({ id: `log-${Date.now()}-unbind`, recordId: id, remark: `解绑用户: ${g.userEmail}，订单号: ${g.orderNo}`, time: now, operator: 'admin' });
-        newLogs.push({ id: `log-${Date.now()}-clear`, recordId: id, remark: `清空售卖时间: ${g.soldAt}，换码次数: ${g.swapCount} → 0`, time: now, operator: 'admin' });
-        newLogs.push({ id: `log-${Date.now()}-view`, recordId: id, remark: '查看状态变更: 已查看 → 未查看', time: now, operator: 'admin' });
-      }
-
       // 已售卖离开时清除换码状态
       if (from === '已售卖' && g.swapStatus === '换码中') {
         updates.swapStatus = '' as const;
@@ -212,18 +199,6 @@ const Index = () => {
 
       const updates: Partial<GiftCode> = { status: to };
 
-      if ((from === '已退款' || from === '已退货') && to === '未售卖') {
-        updates.userEmail = null;
-        updates.orderNo = null;
-        updates.soldAt = null;
-        updates.swapCount = 0;
-        updates.viewStatus = '未查看';
-        updates.swapStatus = '' as const;
-        newLogs.push({ id: `log-${Date.now()}-${item.id}-unbind`, recordId: item.id, remark: `解绑用户: ${item.userEmail}，订单号: ${item.orderNo}`, time: now, operator: 'admin' });
-        newLogs.push({ id: `log-${Date.now()}-${item.id}-clear`, recordId: item.id, remark: `清空售卖时间: ${item.soldAt}，换码次数: ${item.swapCount} → 0`, time: now, operator: 'admin' });
-        newLogs.push({ id: `log-${Date.now()}-${item.id}-view`, recordId: item.id, remark: '查看状态变更: 已查看 → 未查看', time: now, operator: 'admin' });
-      }
-
       if (from === '已售卖' && item.swapStatus === '换码中') {
         updates.swapStatus = '' as const;
       }
@@ -271,18 +246,6 @@ const Index = () => {
           <Button size="sm" onClick={() => setImportOpen(true)} className="h-8 text-xs gap-1">
             <Upload className="h-3.5 w-3.5" />
             导入礼品码
-          </Button>
-          <Button size="sm" variant="outline" className="h-7 text-[11px]" onClick={() => handleBatchAction('已退款', '未售卖')}>
-            批量已退款→未售卖
-          </Button>
-          <Button size="sm" variant="outline" className="h-7 text-[11px]" onClick={() => handleBatchAction('已退款', '无效')}>
-            批量已退款→无效
-          </Button>
-          <Button size="sm" variant="outline" className="h-7 text-[11px]" onClick={() => handleBatchAction('已退货', '未售卖')}>
-            批量已退货→未售卖
-          </Button>
-          <Button size="sm" variant="outline" className="h-7 text-[11px]" onClick={() => handleBatchAction('已退货', '无效')}>
-            批量已退货→无效
           </Button>
           <Button size="sm" variant="outline" className="h-7 text-[11px]" onClick={() => handleBatchAction('未售卖', '无效')}>
             批量未售卖→无效
