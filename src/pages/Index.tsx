@@ -15,6 +15,8 @@ const defaultFilters = {
   dateTo: undefined as Date | undefined,
   soldFrom: undefined as Date | undefined,
   soldTo: undefined as Date | undefined,
+  viewedFrom: undefined as Date | undefined,
+  viewedTo: undefined as Date | undefined,
 };
 
 const PAGE_SIZE = 20;
