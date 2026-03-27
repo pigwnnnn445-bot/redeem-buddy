@@ -62,6 +62,16 @@ const Index = () => {
         if (soldDate > f.soldTo) return false;
       }
       if (f.soldTo && !item.soldAt) return false;
+      if (f.viewedFrom && item.viewedAt) {
+        const viewedDate = new Date(item.viewedAt);
+        if (viewedDate < f.viewedFrom) return false;
+      }
+      if (f.viewedFrom && !item.viewedAt) return false;
+      if (f.viewedTo && item.viewedAt) {
+        const viewedDate = new Date(item.viewedAt);
+        if (viewedDate > f.viewedTo) return false;
+      }
+      if (f.viewedTo && !item.viewedAt) return false;
       return true;
     });
   }, [giftCodes, activeFilters]);
