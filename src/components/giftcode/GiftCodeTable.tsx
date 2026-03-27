@@ -94,6 +94,7 @@ const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, o
               <TableHead className="text-xs font-semibold">订单号</TableHead>
               <TableHead className="text-xs font-semibold">创建时间</TableHead>
               <TableHead className="text-xs font-semibold">售卖时间</TableHead>
+              <TableHead className="text-xs font-semibold">查看时间</TableHead>
               <TableHead className="text-xs font-semibold">创建人</TableHead>
               <TableHead className="text-xs font-semibold">一键换码</TableHead>
               <TableHead className="text-xs font-semibold">换码次数</TableHead>
@@ -104,7 +105,7 @@ const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, o
           <TableBody>
             {data.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={15} className="text-center text-muted-foreground py-16 text-sm">
+                <TableCell colSpan={16} className="text-center text-muted-foreground py-16 text-sm">
                   暂无数据
                 </TableCell>
               </TableRow>
@@ -145,6 +146,7 @@ const GiftCodeTable = ({ data, selectedIds, onSelectionChange, onStatusChange, o
                     <TableCell className="text-xs text-muted-foreground">{item.orderNo || '-'}</TableCell>
                     <TableCell className="text-xs text-muted-foreground">{item.createdAt}</TableCell>
                     <TableCell className="text-xs text-muted-foreground">{item.soldAt || '-'}</TableCell>
+                    <TableCell className="text-xs text-muted-foreground">{item.viewedAt || '-'}</TableCell>
                     <TableCell className="text-xs">{item.createdBy}</TableCell>
                     <TableCell>
                       {item.swapStatus ? (

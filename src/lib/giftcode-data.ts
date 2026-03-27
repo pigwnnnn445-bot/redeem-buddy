@@ -23,6 +23,7 @@ export interface GiftCode {
   swapStatus: SwapStatus;
   swapCount: number;
   soldAt: string | null;
+  viewedAt: string | null;
   remark: string;
   logs: OperationLog[];
 }
