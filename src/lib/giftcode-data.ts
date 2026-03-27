@@ -295,4 +295,38 @@ export const mockGiftCodes: GiftCode[] = [
       { id: 'log-18d', recordId: '25', remark: '状态变更: 已售卖 → 已退货', time: '2026-03-20 15:00:00', operator: 'admin' },
     ],
   },
+  // 用户未查看时申请退款 → 已售卖变为未售卖，信息清空
+  {
+    id: '26', skuName: 'Netflix 月卡', code: 'NF-REFUND-3001-AAAA',
+    status: '未售卖', viewStatus: '未查看', userEmail: null, orderNo: null,
+    createdAt: '2026-03-22 08:00:00', createdBy: 'admin', swapStatus: '', swapCount: 0, soldAt: null, viewedAt: null, remark: '用户未查看时申请退款，信息已清空',
+    logs: [
+      { id: 'log-19', recordId: '26', remark: '创建礼品码', time: '2026-03-22 08:00:00', operator: 'admin' },
+      { id: 'log-19b', recordId: '26', remark: '状态变更: 未售卖 → 已售卖，绑定用户: tom@mail.com，订单号: ORD-20260322-700，售卖时间: 2026-03-22 12:00:00', time: '2026-03-22 12:00:00', operator: 'tom@mail.com' },
+      { id: 'log-19c', recordId: '26', remark: '用户申请退款（未查看状态），状态变更: 已售卖 → 未售卖，清空用户邮箱: tom@mail.com，订单号: ORD-20260322-700，售卖时间: 2026-03-22 12:00:00，换码次数归零', time: '2026-03-22 14:00:00', operator: 'tom@mail.com' },
+    ],
+  },
+  // 换码成功场景 - 旧码（已退货）
+  {
+    id: '27', skuName: 'Spotify 季卡', code: 'SP-OLDSWAP-4001-BBBB',
+    status: '已退货', viewStatus: '已查看', userEmail: 'lisa@test.com', orderNo: 'ORD-20260321-800',
+    createdAt: '2026-03-20 10:00:00', createdBy: 'operator1', swapStatus: '', swapCount: 1, soldAt: '2026-03-21 09:00:00', viewedAt: '2026-03-21 11:00:00', remark: '换码成功，旧码已退货',
+    logs: [
+      { id: 'log-20', recordId: '27', remark: '创建礼品码', time: '2026-03-20 10:00:00', operator: 'operator1' },
+      { id: 'log-20b', recordId: '27', remark: '状态变更: 未售卖 → 已售卖，绑定用户: lisa@test.com，订单号: ORD-20260321-800，售卖时间: 2026-03-21 09:00:00', time: '2026-03-21 09:00:00', operator: 'lisa@test.com' },
+      { id: 'log-20b2', recordId: '27', remark: '查看状态变更: 未查看 → 已查看', time: '2026-03-21 11:00:00', operator: 'lisa@test.com' },
+      { id: 'log-20c', recordId: '27', remark: '一键换码操作，进入换码中状态', time: '2026-03-21 15:00:00', operator: 'admin' },
+      { id: 'log-20d', recordId: '27', remark: '换码成功，旧码状态变更: 已售卖 → 已退货，一键换码状态清空', time: '2026-03-22 10:00:00', operator: 'system' },
+    ],
+  },
+  // 换码成功场景 - 新码（已售卖，继承用户信息）
+  {
+    id: '28', skuName: 'Spotify 季卡', code: 'SP-NEWSWAP-4002-CCCC',
+    status: '已售卖', viewStatus: '未查看', userEmail: 'lisa@test.com', orderNo: 'ORD-20260321-800',
+    createdAt: '2026-03-20 10:05:00', createdBy: 'operator1', swapStatus: '', swapCount: 1, soldAt: '2026-03-21 09:00:00', viewedAt: null, remark: '换码成功，新码已绑定',
+    logs: [
+      { id: 'log-21', recordId: '28', remark: '创建礼品码', time: '2026-03-20 10:05:00', operator: 'operator1' },
+      { id: 'log-21b', recordId: '28', remark: '换码成功，新码状态变更: 未售卖 → 已售卖，绑定用户: lisa@test.com，订单号: ORD-20260321-800，售卖时间保持: 2026-03-21 09:00:00，换码次数: 1', time: '2026-03-22 10:00:00', operator: 'system' },
+    ],
+  },
 ];
