@@ -45,6 +45,49 @@ export const mockSKUs: SKU[] = [
 export const mockCreators = ['admin', 'operator1', 'operator2'];
 
 export const mockGiftCodes: GiftCode[] = [
+  // 全生命周期记录：包含所有可能的日志场景
+  {
+    id: '0', skuName: 'Netflix 月卡', code: 'NF-FULL-0000-LIFE',
+    status: '已退货', viewStatus: '已查看', userEmail: 'alice@example.com', orderNo: 'ORD-20260310-999',
+    createdAt: '2026-03-10 09:00:00', createdBy: 'admin', swapStatus: '', swapCount: 3, soldAt: '2026-03-12 14:00:00', viewedAt: '2026-03-12 16:00:00', remark: '完整生命周期示例',
+    logs: [
+      { id: 'log-full-01', recordId: '0', remark: '创建礼品码', time: '2026-03-10 09:00:00', operator: 'admin' },
+      { id: 'log-full-02', recordId: '0', remark: '编辑备注: 新入库码', time: '2026-03-10 09:05:00', operator: 'admin' },
+      // 第一次售卖
+      { id: 'log-full-03', recordId: '0', remark: '状态变更: 未售卖 → 已售卖，绑定用户: tom@mail.com，订单号: ORD-20260310-100，售卖时间: 2026-03-10 14:00:00', time: '2026-03-10 14:00:00', operator: 'tom@mail.com' },
+      // 用户未查看时申请退款 → 回到未售卖
+      { id: 'log-full-04', recordId: '0', remark: '用户申请退款（未查看状态），状态变更: 已售卖 → 未售卖，清空用户邮箱: tom@mail.com，订单号: ORD-20260310-100，售卖时间: 2026-03-10 14:00:00，换码次数归零', time: '2026-03-10 16:00:00', operator: 'tom@mail.com' },
+      // 第二次售卖
+      { id: 'log-full-05', recordId: '0', remark: '状态变更: 未售卖 → 已售卖，绑定用户: bob@mail.com，订单号: ORD-20260311-200，售卖时间: 2026-03-11 10:00:00', time: '2026-03-11 10:00:00', operator: 'bob@mail.com' },
+      // 用户查看
+      { id: 'log-full-06', recordId: '0', remark: '查看状态变更: 未查看 → 已查看，查看时间: 2026-03-11 12:00:00', time: '2026-03-11 12:00:00', operator: 'bob@mail.com' },
+      // 后台编辑备注
+      { id: 'log-full-07', recordId: '0', remark: '编辑备注: 客户反馈码无法使用', time: '2026-03-11 13:00:00', operator: 'admin' },
+      // 第一次一键换码
+      { id: 'log-full-08', recordId: '0', remark: '一键换码操作，进入换码中状态', time: '2026-03-11 14:00:00', operator: 'admin' },
+      // 取消换码
+      { id: 'log-full-09', recordId: '0', remark: '取消换码操作', time: '2026-03-11 15:00:00', operator: 'admin' },
+      // 第二次一键换码
+      { id: 'log-full-10', recordId: '0', remark: '一键换码操作，进入换码中状态', time: '2026-03-11 16:00:00', operator: 'admin' },
+      // 换码成功 → 旧码变已退货
+      { id: 'log-full-11', recordId: '0', remark: '换码成功，旧码状态变更: 已售卖 → 已退货，一键换码状态清空', time: '2026-03-11 18:00:00', operator: 'system' },
+      // 新码分配（此处记录在旧码日志中作为关联参考）
+      { id: 'log-full-12', recordId: '0', remark: '换码成功，新码 NF-NEW1-1111-AAAA 已分配给用户 bob@mail.com，继承订单号: ORD-20260311-200，换码次数: 1', time: '2026-03-11 18:00:00', operator: 'system' },
+      // 假设新码再次经历售卖/查看/换码流程（第二轮，模拟此码被重新启用的场景日志）
+      { id: 'log-full-13', recordId: '0', remark: '状态变更: 已退货 → 说明：以下为关联新码 NF-NEW2 的第二轮换码记录', time: '2026-03-12 09:00:00', operator: 'system' },
+      // 第三次售卖（作为新码被重新绑定）
+      { id: 'log-full-14', recordId: '0', remark: '换码成功，新码状态变更: 未售卖 → 已售卖，绑定用户: alice@example.com，订单号: ORD-20260310-999，售卖时间保持: 2026-03-12 14:00:00，换码次数: 3', time: '2026-03-12 14:00:00', operator: 'system' },
+      { id: 'log-full-15', recordId: '0', remark: '查看状态变更: 未查看 → 已查看，查看时间: 2026-03-12 16:00:00', time: '2026-03-12 16:00:00', operator: 'alice@example.com' },
+      // 已查看后用户申请退款 → 已退款（非未售卖）
+      { id: 'log-full-16', recordId: '0', remark: '用户申请退款（已查看状态），状态变更: 已售卖 → 已退款', time: '2026-03-13 10:00:00', operator: 'alice@example.com' },
+      // 后台操作：转无效
+      { id: 'log-full-17', recordId: '0', remark: '后台操作，状态变更: 已退款 → 无效', time: '2026-03-14 09:00:00', operator: 'admin' },
+      // 编辑备注
+      { id: 'log-full-18', recordId: '0', remark: '编辑备注: 完整生命周期示例', time: '2026-03-14 10:00:00', operator: 'admin' },
+      // 批量操作记录
+      { id: 'log-full-19', recordId: '0', remark: '批量操作 - 状态变更: 无效 → 已退货（管理员批量处理）', time: '2026-03-15 09:00:00', operator: 'admin' },
+    ],
+  },
   {
     id: '1', skuName: 'Netflix 月卡', code: 'NF-ABCD-1234-EFGH',
     status: '未售卖', viewStatus: '未查看', userEmail: null, orderNo: null,
