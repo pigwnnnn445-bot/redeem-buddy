@@ -23,6 +23,8 @@ interface FilterBarProps {
     dateTo: Date | undefined;
     soldFrom: Date | undefined;
     soldTo: Date | undefined;
+    viewedFrom: Date | undefined;
+    viewedTo: Date | undefined;
   };
   onFilterChange: (key: string, value: any) => void;
   onSearch: () => void;
@@ -212,6 +214,12 @@ const FilterBar = ({ filters, onFilterChange, onSearch, onReset }: FilterBarProp
           <DateTimePicker date={filters.soldFrom} onDateChange={(d) => onFilterChange('soldFrom', d)} placeholder="开始时间" />
           <span className="text-xs text-muted-foreground">~</span>
           <DateTimePicker date={filters.soldTo} onDateChange={(d) => onFilterChange('soldTo', d)} placeholder="结束时间" />
+        </div>
+        <div className="col-span-2 flex items-center gap-2">
+          <span className="text-xs text-muted-foreground whitespace-nowrap">查看时间</span>
+          <DateTimePicker date={filters.viewedFrom} onDateChange={(d) => onFilterChange('viewedFrom', d)} placeholder="开始时间" />
+          <span className="text-xs text-muted-foreground">~</span>
+          <DateTimePicker date={filters.viewedTo} onDateChange={(d) => onFilterChange('viewedTo', d)} placeholder="结束时间" />
         </div>
       </div>
       <div className="flex gap-2">

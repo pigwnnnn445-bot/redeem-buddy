@@ -15,6 +15,8 @@ const defaultFilters = {
   dateTo: undefined as Date | undefined,
   soldFrom: undefined as Date | undefined,
   soldTo: undefined as Date | undefined,
+  viewedFrom: undefined as Date | undefined,
+  viewedTo: undefined as Date | undefined,
 };
 
 const PAGE_SIZE = 20;
@@ -60,6 +62,16 @@ const Index = () => {
         if (soldDate > f.soldTo) return false;
       }
       if (f.soldTo && !item.soldAt) return false;
+      if (f.viewedFrom && item.viewedAt) {
+        const viewedDate = new Date(item.viewedAt);
+        if (viewedDate < f.viewedFrom) return false;
+      }
+      if (f.viewedFrom && !item.viewedAt) return false;
+      if (f.viewedTo && item.viewedAt) {
+        const viewedDate = new Date(item.viewedAt);
+        if (viewedDate > f.viewedTo) return false;
+      }
+      if (f.viewedTo && !item.viewedAt) return false;
       return true;
     });
   }, [giftCodes, activeFilters]);
@@ -220,7 +232,7 @@ const Index = () => {
       status: '未售卖' as const, viewStatus: '未查看' as const,
       userEmail: null, orderNo: null,
       createdAt: new Date().toLocaleString('zh-CN'), createdBy: 'admin',
-      swapStatus: '' as const, swapCount: 0, soldAt: null, remark: '',
+      swapStatus: '' as const, swapCount: 0, soldAt: null, viewedAt: null, remark: '',
       logs: [{ id: `log-new-${Date.now()}-${i}`, recordId: `${Date.now()}-${i}`, remark: '导入礼品码', time: new Date().toLocaleString('zh-CN'), operator: 'admin' }],
     }));
     setGiftCodes(prev => [...newCodes, ...prev]);
