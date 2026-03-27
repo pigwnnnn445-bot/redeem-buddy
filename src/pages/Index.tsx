@@ -232,7 +232,7 @@ const Index = () => {
       status: '未售卖' as const, viewStatus: '未查看' as const,
       userEmail: null, orderNo: null,
       createdAt: new Date().toLocaleString('zh-CN'), createdBy: 'admin',
-      swapStatus: '' as const, swapCount: 0, soldAt: null, remark: '',
+      swapStatus: '' as const, swapCount: 0, soldAt: null, viewedAt: null, remark: '',
       logs: [{ id: `log-new-${Date.now()}-${i}`, recordId: `${Date.now()}-${i}`, remark: '导入礼品码', time: new Date().toLocaleString('zh-CN'), operator: 'admin' }],
     }));
     setGiftCodes(prev => [...newCodes, ...prev]);
